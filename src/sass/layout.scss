@@ -1,0 +1,94 @@
+    @import "varible";
+    @import "mixins.scss";
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    .game-header {
+        padding: $normal-padding;
+        .inline-input {
+            width: 150px;
+            display: inline-block;
+            padding: 5px 0;
+        }
+    }
+
+    .p-title {
+        transition: all 1.2s ease-in-out;
+        -moz-transition: all 1.2s ease-in-out;
+        -webkit-transition: all 1.2s ease-in-out;
+        -o-transition: all 1.2s ease-in-out;
+        font: {
+            size: $normal-size*1.5;
+        }
+        color: #ff5100;
+        cursor: pointer;
+        padding: $normal-padding;
+        .tips {
+            font-size: $normal-size*0.5;
+            color: $main-color;
+            line-height: 1.2;
+        }
+    }
+
+    .radius {
+        width: 100px;
+        height: 30px;
+        color: $main-color;
+        border: 1px solid $border-color;
+        @include border-radius(5px);
+        background-color: $content-color;
+    }
+
+    .message {
+        border: 1px solid #ccc;
+        padding: 10px;
+        color: #333;
+    }
+    .link-router{
+      color: $content-color;
+      font-size: $normal-size;
+      padding: $normal-padding;
+    }
+    .success {
+        @extend .message;
+        border-color: $success-color;
+        color: $success-color;
+    }
+
+    .error {
+        @extend .message;
+        border-color: $error-color;
+        color: $error-color;
+    }
+
+    .warn {
+        @extend .message;
+        border-color: $warn-color;
+        color: $warn-color;
+    }
+
+    @for $i from 1 to 10 {
+        .border-#{$i} {
+            border:#{$i}px solid blue;
+        }
+    }
+
+    @each $photo in me,
+    she,
+    her {
+        .#{$photo}-icon {
+            background-image: url('../images/#{$photo}.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            width: 300px;
+            height: 400px;
+            margin: $normal-padding;
+            float: left;
+            border: 2px solid $border-color;
+            @include border-radius(5px);
+            list-style: none;
+        }
+    }
