@@ -6,35 +6,25 @@
      <i :class="item.icon"></i>{{item.msg}}
     </el-menu-item>
    </template>
-   </el-menu>
-  </div>
+</el-menu>
+</div>
 </template>
 <script>
-export default{
-    name:'nav',
-    data(){
-    return{
-       activeIndex: '1',
-      }
-    },
-    props:{
-    router:Boolean,
-    active:String,
-    mode:String,
-    theme:String,
-    menu:Array  
+    export default {
+        name: 'nav',
+        data() {
+            return {
+                activeIndex: '1',
+            }
+        },
+        props: {
+            router: Boolean,
+            active: String,
+            mode: String,
+            theme: String,
+            menu: Array
+        }
     }
-}
 </script>
-<style lang="scss" scope>
-  a{
-    color: #fff;
-    text-decoration:none;
-  }
-  .nav{
-    float:left;
-    margin-left: 20px;
-    min-width:460px;
-    margin-top: 20px;
-  }
+<style lang="sass" scope>
 </style>

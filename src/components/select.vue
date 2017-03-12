@@ -16,6 +16,7 @@
      <li class="she-icon"></li>
       <li class="her-icon"></li>
 </ul>
+</div>
 </template>
 <script>
     export default {

@@ -1,27 +1,26 @@
 <template>
     <div class="product">
-        <h1>产品列表页面</h1>
         <a class="author" href="">writen by:{{author}}</a>
         <p>{{txt}}</p>
       <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <h1 style="line-height: 36px; color: #20A0FF">豆瓣电影排行榜</h2>
+        <h1 style="line-height: 36px; color: #20A0FF">豆瓣电影排行榜</h1>
       </div>
       <div v-for="article in articles" class="text item">
         {{article.title}}
       </div>
       </el-card>
 
-<div>
+
     <el-button>默认按钮</el-button>
     <el-button type="primary">主要按钮</el-button>
     <el-button type="text">文字按钮</el-button>
-
+ <router-link to="/se">Home</router-link>
+   <router-link to="./list">列表页</router-link>
 
 </div>
 
- <router-link to="/se">Home</router-link>
-       <router-link to="./list">列表页</router-link>
+
 
 </template>
 <script>
