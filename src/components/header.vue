@@ -15,13 +15,13 @@ import Gnav from 'components/nav'
     name:'header',
     data(){
         return{
-            active:'/g',
-            mode:'vertical',
+            active:'/home',
+            mode:'horizontal',
             theme:'dark',
             router:true,
   menu:[
         {
-          index:'/',
+          index:'/home',
           icon:'el-icon-menu',
           msg:'首页'
         },
@@ -49,12 +49,13 @@ import Gnav from 'components/nav'
         }
     },
      methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
+      handleClose:function(){
+          console.info(11);
+          this.$emit('menuClose');
+        },
+        handleOpen:function(){
+          this.$emit('menuOpen');
+        }
     },
   components: {
             Gnav
