@@ -1,5 +1,6 @@
 <template>
     <div class="product">
+        <h1>产品列表页面</h1>
         <a class="author" href="">writen by:{{author}}</a>
         <p>{{txt}}</p>
       <el-card class="box-card">
@@ -11,15 +12,14 @@
       </div>
       </el-card>
 
-
     <el-button>默认按钮</el-button>
     <el-button type="primary">主要按钮</el-button>
     <el-button type="text">文字按钮</el-button>
+
  <router-link to="/se">Home</router-link>
-   <router-link to="./list">列表页</router-link>
+       <router-link to="./list">列表页</router-link>
 
 </div>
-
 
 
 </template>

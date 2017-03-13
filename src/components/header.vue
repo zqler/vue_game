@@ -10,13 +10,13 @@
    </div>
 </template>
 <script>
-import Gnav from 'components/nav'
+import Gnav from 'components/Nav'
  export default{
     name:'header',
     data(){
         return{
-            active:'/g',
-            mode:'vertical',
+            active:'/',
+            mode:'horizontal',
             theme:'dark',
             router:true,
   menu:[
@@ -36,7 +36,7 @@ import Gnav from 'components/nav'
           msg:'书籍管理'
         },
         {
-          index:'/bar',
+          index:'/pl',
           icon:'el-icon-date',
           msg:'学习计划'
         },

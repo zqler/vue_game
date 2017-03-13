@@ -7,8 +7,7 @@
 
 <script>
 import Headnav from 'components/header'
-    export default {
-        
+    export default {    
         name: 'app',
         data() {
             return {
