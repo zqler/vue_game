@@ -14,9 +14,8 @@
         name: 'nav',
         data() {
             return {
-                activeIndex: '/',
             }
-        },
+        }, 
         props: {
             router: Boolean,
             active: String,

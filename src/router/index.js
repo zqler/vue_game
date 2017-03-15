@@ -5,6 +5,8 @@ import Hello from 'components/Hello'
 import Productlist from 'components/Productlist'
 import Product from 'components/Product'
 import Login from 'components/login'
+import Select from 'components/select'
+import Nav from 'components/Nav'
 import Plan from 'components/Plan'
 import VueResource from 'vue-resource'
 

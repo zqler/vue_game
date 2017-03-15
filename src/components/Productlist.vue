@@ -38,6 +38,9 @@
         }
     }
 </script>
-<style lang="sass" scoped>
-    @import "../sass/layout.scss";
+<style lang="scss" scoped>
+  .img{
+      width:100%;
+      height:auto;
+  }
 </style>

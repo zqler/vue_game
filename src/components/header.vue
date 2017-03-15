@@ -4,7 +4,7 @@
      <div class="panel p-content flex-item-1 flex">
       <aside class="p-menu">
         <Gnav :router="router" :mode="mode" :theme="theme" :menu="menu" @menuClose="handleClose" @menuOpen="handleOpen"
-               :active="active"></Gnav>
+               :active="active" @change="navchang"></Gnav>
       </aside>
     </div>
    </div>
@@ -15,13 +15,13 @@ import Gnav from 'components/Nav'
     name:'header',
     data(){
         return{
-            active:'/',
+            active:'/home',
             mode:'horizontal',
             theme:'dark',
             router:true,
   menu:[
         {
-          index:'/',
+          index:'/home',
           icon:'el-icon-menu',
           msg:'首页'
         },
@@ -54,6 +54,9 @@ import Gnav from 'components/Nav'
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
+      },
+      navchange:function(active){
+        store.commit('active');
       }
     },
   components: {
