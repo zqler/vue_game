@@ -15,7 +15,7 @@ const stringify = JSON.stringify;
 const savaStore = store => {
     store.subscribe((mutation, state) => {
         if (mutation.type == 'MENU_CHANGE') {
-          localStore.setItem("MENU_CHANGE", stringify(state.menu));
+          localStore.setItem("MENU_CHANGE", stringify(state.menuState));
         }
     })
 }
@@ -24,7 +24,7 @@ const state = {
     event: [],//event，存储所有事件
 
     menuState:{
-      change:"/home'"
+      change:"/home"
     }
 }
 
