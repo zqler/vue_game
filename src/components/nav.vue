@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
-   <el-menu :theme="theme" :default-active="active"  :mode="mode" :router="router">
-   <template v-for="item in menu">
+   <el-menu :theme="theme" @select="select" :default-active="active"  :mode="mode" :router="router">
+     <template v-for="item in menu">
      <el-menu-item :index="item.index">
      <i :class="item.icon"></i>{{item.msg}}
     </el-menu-item>
@@ -15,13 +15,18 @@
         data() {
             return {
             }
-        }, 
+        },
         props: {
             router: Boolean,
             active: String,
             mode: String,
             theme: String,
             menu: Array
+        },
+        methods:{
+          select(index){
+             this.$emit('change', index);
+          }
         }
     }
 </script>

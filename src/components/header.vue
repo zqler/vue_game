@@ -1,16 +1,17 @@
 <template>
    <div class="header">
-     <img class="logo" src="../assets/protrait.jpg">  
+     <img class="logo" src="../assets/protrait.jpg">
      <div class="panel p-content flex-item-1 flex">
       <aside class="p-menu">
         <Gnav :router="router" :mode="mode" :theme="theme" :menu="menu" @menuClose="handleClose" @menuOpen="handleOpen"
-               :active="active" @change="navchang"></Gnav>
+               :active="menuState.change" @change="navchang"></Gnav>
       </aside>
     </div>
    </div>
 </template>
 <script>
-import Gnav from 'components/Nav'
+import Gnav from 'components/Nav';
+import {mapState} from "vuex"
  export default{
     name:'header',
     data(){
@@ -48,6 +49,9 @@ import Gnav from 'components/Nav'
       ]
         }
     },
+    computed:{
+       ...mapState(['menuState'])
+    },
      methods: {
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
@@ -55,14 +59,14 @@ import Gnav from 'components/Nav'
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       },
-      navchange:function(active){
-        store.commit('active');
+      navchang:function(active){
+        this.$store.commit('MENU_CHANGE',active);
       }
     },
   components: {
             Gnav
         }
-}   
+}
 </script>
 <style lang="sass">
       @import "../sass/common.scss"

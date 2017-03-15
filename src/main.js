@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import Element from 'element-ui'
+import store from "../store/types";
 import 'element-ui/lib/theme-default/index.css'
 
 
@@ -13,6 +14,7 @@ Vue.use(Element)
 new Vue({
     el: '#app',
     router,
+    store,
     template: '<App/>',
     components: { App }
 })
