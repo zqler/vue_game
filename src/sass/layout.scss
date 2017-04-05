@@ -1,10 +1,5 @@
     @import "varible";
     @import "mixins.scss";
-    img {
-        width: 100%;
-        height: auto;
-    }
-
     .game-header {
         padding: $normal-padding;
         .inline-input {
@@ -13,7 +8,7 @@
             padding: 5px 0;
         }
     }
-
+    
     .p-title {
         transition: all 1.2s ease-in-out;
         -moz-transition: all 1.2s ease-in-out;
@@ -31,7 +26,12 @@
             line-height: 1.2;
         }
     }
-
+    
+    .p-menu {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+    
     .radius {
         width: 100px;
         height: 30px;
@@ -40,41 +40,43 @@
         @include border-radius(5px);
         background-color: $content-color;
     }
-
+    
     .message {
         border: 1px solid #ccc;
         padding: 10px;
         color: #333;
     }
-    .link-router{
-      color: $content-color;
-      font-size: $normal-size;
-      padding: $normal-padding;
+    
+    .link-router {
+        color: $content-color;
+        font-size: $normal-size;
+        padding: $normal-padding;
     }
+    
     .success {
         @extend .message;
         border-color: $success-color;
         color: $success-color;
     }
-
+    
     .error {
         @extend .message;
         border-color: $error-color;
         color: $error-color;
     }
-
+    
     .warn {
         @extend .message;
         border-color: $warn-color;
         color: $warn-color;
     }
-
+    
     @for $i from 1 to 10 {
         .border-#{$i} {
             border:#{$i}px solid blue;
         }
     }
-
+    
     @each $photo in me,
     she,
     her {
@@ -90,5 +92,22 @@
             border: 2px solid $border-color;
             @include border-radius(5px);
             list-style: none;
+        }
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        border: 0;
+        tr>td {
+            margin: 5px;
+            border: 1px solid #eee;
+        }
+        tr {
+            background: #fff;
+            &:hover {
+                background: #ccc;
+            }
         }
     }

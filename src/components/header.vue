@@ -1,16 +1,17 @@
 <template>
    <div class="header">
-     <img class="logo" src="../assets/protrait.jpg">  
+     <img class="logo" src="../assets/protrait.jpg">
      <div class="panel p-content flex-item-1 flex">
       <aside class="p-menu">
         <Gnav :router="router" :mode="mode" :theme="theme" :menu="menu" @menuClose="handleClose" @menuOpen="handleOpen"
-               :active="active"></Gnav>
+               :active="menuState.change" @change="navchang"></Gnav>
       </aside>
     </div>
    </div>
 </template>
 <script>
-import Gnav from 'components/nav'
+import Gnav from 'components/Nav';
+import {mapState} from "vuex"
  export default{
     name:'header',
     data(){
@@ -36,7 +37,7 @@ import Gnav from 'components/nav'
           msg:'书籍管理'
         },
         {
-          index:'/bar',
+          index:'/pl',
           icon:'el-icon-date',
           msg:'学习计划'
         },
@@ -48,19 +49,24 @@ import Gnav from 'components/nav'
       ]
         }
     },
+    computed:{
+       ...mapState(['menuState'])
+    },
      methods: {
-      handleClose:function(){
-          console.info(11);
-          this.$emit('menuClose');
-        },
-        handleOpen:function(){
-          this.$emit('menuOpen');
-        }
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      navchang:function(active){
+        this.$store.commit('MENU_CHANGE',active);
+      }
     },
   components: {
             Gnav
         }
-}   
+}
 </script>
 <style lang="sass">
       @import "../sass/common.scss"

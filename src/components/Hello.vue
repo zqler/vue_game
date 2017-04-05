@@ -1,74 +1,70 @@
-<template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>介绍</h2>
-    <div class="input" id="app1">
-    <p>{{message}}</p>
-    <input v-model="message">
+<template >
+  <div class="data">
+    <h1 class="txt-shadow">{{ msg }}</h1>
+    <time>现在时间是：{{dateFormat}}</time>
+    <el-row>
+      <el-col :span="10" :offset="8"><div class="grid-content bg-purple-dark">
+    <el-breadcrumb separator="/">
+     <el-breadcrumb-item :to="{path:'/home'}">
+       首页
+     </el-breadcrumb-item>
+     <el-breadcrumb-item >每日一读</el-breadcrumb-item>
+ 
+    </el-breadcrumb>
+    <template>
+     
+    </template>
+    <template>
+      <div class="block">
+        <span class="demostration"></span>
+        <el-pagination  
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage2"
+        :page-sizes="[10,20,30,40,]"
+        :page-size="10"
+        layout="sizes,prev,pager,next"
+        :total="100"
+        >
+       
+        </el-pagination>
+      </div>
+    </template>
     </div>
-    <ul id="example-1">
-    <li v-for="item in items">
-      <router-link to='/bar'>{{ item.commessage }}</router-link>
-
-     </li>
-     </ul>
-     <div :class="[classA,classB]">这是一个新的框架</div>
-     <ul >
-       <li v-for="value in object">
-          {{ $key }} : {{ value }}
-       </li>
-      </ul>
-     <template v-if="false">
-     	<h1>title</h1>
-     	<p>Paragraph 1</p>
-      <p>Paragraph 2</p>
-     </template>
-<div>
-    <span v-for="n in 10">{{ n }} </span>
-</div>
-<select v-model="selected">
-<!-- 对象字面量 -->
-     <option v-bind:value="{ number: 123 }">123</option>
-     </select>
-<button v-on:click="greet">Greet</button>
-<router-link to="/">home</router-link>
-<router-link to="/bar">Go to Bar</router-link>
+    </el-col>
+</el-row>
 </div>
 </template>
 
 <script>
+  import {mapState,mapGetters} from 'vuex'
     export default {
-        name: 'hello',
+        name: 'data',
         data() {
             return {
-                msg: '魏秀艳',
-                message: 'zhangquan',
-                items: [{
-                    commessage: '首页',
-                    index:'开始'
-                }, {
-                    commessage: '公司简介'
-                }, {
-                    commessage: '公司业务'
-                }, {
-                    commessage: '公司文化'
-                }, {
-                    commessage: '联系方式'
-                }],
-                classA: 'class-a',
-                classB: 'class-b',
-                object: {
-                    FirstName: 'John',
-                    LastName: 'Doe',
-                    Age: 30
-                }
+                msg: '未来还是要有规划的，一步步实现小目标',
+                nowDate:'',
+                currentPage2:5,
+               
             }
         },
-        methods: {
-            greet: function() {
-                location.href = "https://www.baidu.com/";
-            }
+        
+        computed:{
+          ...mapGetters([
+            'dateFormat'
+           
+            ])
+          
         },
+        methods:{
+            handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        console.log(`当前页: ${val}`);
+      }
+        } 
     }
 </script>
 
@@ -80,39 +76,17 @@
         font-size: 20px;
         color: #ff5100;
     }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
+    .txt-shadow{
+        text-shadow: 5px 5px 20px #333;
     }
-
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-
-    input {
-        outline: none;
-    }
-
-    .input input {
-        height: 30px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        color: #42B983;
-        padding-left: 5px;
-        font-size: 20px;
-    }
-
-    .input input:focus {
-        border: 1px solid #FF5100;
-    }
-
-    a {
-        color: #333;
-    }
-
-    a:hover {
-        color: #42B983;
-    }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
 </style>
