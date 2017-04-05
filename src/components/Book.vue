@@ -1,53 +1,51 @@
 <template>
 <tbody>
-<tr v-for="task in list">
+<tr>
+<th>编号</th>
+<th>管理员</th>
+<th>归还情况</th>
+<th>用户</th>
+<th>时间</th>
+<th>修改</th>
+<th>删除</th>
+</tr>
+<tr v-for="task in  this.$store.getter.getNews ">
 <td>{{task.taskId}}</td>
 <td>{{task.creator}}</td>
 <td>{{task.creatThing}}</td>
 <td>{{task.modifyInfo.user}}</td>
 <td>{{task.modifyInfo.time}}</td>
-<td> <el-button type="primary" >修改</el-button></td>
-<td> <el-button type="primary" @click="open">删除</el-button></td>
+<td> <el-button type="primary">修改</el-button></td>
+<td> <el-button type="warning" @click="open($index)">删除</el-button></td>
 </tr>
 </tbody>
 </template>
 <script>
+import {mapGetters} from 'vuex'
     export default{
         data(){
             return{
-                list:[
-                    {
-                        "taskId":"0001",
-                        "creator":"张权",
-                        "creatThing":"归还书籍",
-                        "modifyInfo":{
-                            "user":"张权",
-                            "time":"2017-3-10  10:30"
-                        }
-                    },
-                     {
-                        "taskId":"0002",
-                        "creator":"赵奕欢",
-                        "creatThing":"周末安排",
-                        "modifyInfo":{
-                            "user":"赵奕欢",
-                            "time":"2017-3-12  10:00"
-                        }
-                    },
-                     {
-                        "taskId":"0003",
-                        "creator":"陈杰",
-                        "creatThing":"回家",
-                        "modifyInfo":{
-                            "user":"陈杰",
-                            "time":"2017-3-11  9:00"
-                        }
-                    }
-                ]
+              
             }
         },
+        created:function(){
+              if( this.$store.getter.getNews==0){
+                  this.$http.get("http://localhost:3000/newList").then(function(res){
+                      //成功
+                      this.$store.getter.getNews=res.body;
+                    
+                  },function(res){
+                      //失败
+                  })
+                  
+                  }
+        },
+        computed:{
+            ...mapGetters(['getNews'])
+        },
         methods:{
-            open(){
+            open:function(index){
+                const _this=this;
                 this.$confirm("确定删除？","删除提示",{
                   confirmButtonText:'确定',
                   cancelButtonText:'取消',
@@ -56,7 +54,7 @@
                     this.$message({
                        type:'success',
                         message:'删除成功'
-                    });
+                    },this.list.splice(index, 1));
                    
                 }).catch(()=>{
                      this.$message({
@@ -68,3 +66,6 @@
         }
     }
 </script>
+<style lang="scss" scoped>
+    @import "../sass/layout"
+</style>

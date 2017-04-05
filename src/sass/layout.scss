@@ -98,9 +98,16 @@
     table {
         width: 100%;
         border-collapse: collapse;
-        text-align: left;
-        tr td {
+        text-align: center;
+        border: 0;
+        tr>td {
             margin: 5px;
-            border: 1px solid #ff5100;
+            border: 1px solid #eee;
+        }
+        tr {
+            background: #fff;
+            &:hover {
+                background: #ccc;
+            }
         }
     }
