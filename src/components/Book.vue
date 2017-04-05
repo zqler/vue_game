@@ -41,7 +41,9 @@ import {mapGetters} from 'vuex'
                   }
         },
         computed:{
-            ...mapGetters(['getNews'])
+            ...mapGetters({
+               getNews:state=>state.newslist.getNews
+            })
         },
         methods:{
             open:function(index){
