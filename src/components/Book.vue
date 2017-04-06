@@ -9,7 +9,7 @@
 <th>修改</th>
 <th>删除</th>
 </tr>
-<tr v-for="task in  this.$store.getter.getNews ">
+<tr v-for="task in  getNews ">
 <td>{{task.taskId}}</td>
 <td>{{task.creator}}</td>
 <td>{{task.creatThing}}</td>
@@ -25,20 +25,10 @@ import {mapGetters} from 'vuex'
     export default{
         data(){
             return{
-              
             }
         },
         created:function(){
-              if( this.$store.getter.getNews==0){
-                  this.$http.get("http://localhost:3000/newList").then(function(res){
-                      //成功
-                      this.$store.getter.getNews=res.body;
-                    
-                  },function(res){
-                      //失败
-                  })
-                  
-                  }
+             this.$store.dispatch("GET_DATA");
         },
         computed:{
             ...mapGetters(['getNews'])

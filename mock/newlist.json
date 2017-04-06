@@ -6,7 +6,8 @@
             "modifyInfo": {
                 "user": "张权",
                 "time": "2017-3-10  10:30"
-            }
+            },
+            "isdeleted": true
         },
         {
             "taskId": "0002",

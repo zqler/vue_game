@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import mutations from './mutations';
 import actions from './actions';
 import getters from './getters';
-import newslist from './modules/newlist';
+import newlist from './modules/newlist';
 import { constants, login, motion } from './types';
 import util from "util/util";
 Vue.use(Vuex);
@@ -60,7 +60,7 @@ export default new Vuex.Store({
     getters,
     plugins: [savaStore],
     modules: {
-        newslist
+        newlist
 
     },
 })
