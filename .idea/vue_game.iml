@@ -8,6 +8,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+<<<<<<< HEAD
     <orderEntry type="library" name="vue_game-master node_modules" level="project" />
+=======
+>>>>>>> 6116241f5f6c0c357e9e731871d76cfb383fc63b
   </component>
 </module>

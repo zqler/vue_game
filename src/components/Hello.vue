@@ -14,22 +14,7 @@
     <template>
      
     </template>
-    <template>
-      <div class="block">
-        <span class="demostration"></span>
-        <el-pagination  
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage2"
-        :page-sizes="[10,20,30,40,]"
-        :page-size="10"
-        layout="sizes,prev,pager,next"
-        :total="100"
-        >
-       
-        </el-pagination>
-      </div>
-    </template>
+    
     </div>
     </el-col>
 </el-row>
@@ -44,11 +29,13 @@
             return {
                 msg: '未来还是要有规划的，一步步实现小目标',
                 nowDate:'',
-                currentPage2:5,
+               
                
             }
         },
-        
+          creat:function(){
+          setTimeout(this.dateFormat,1000)
+        },
         computed:{
           ...mapGetters([
             'dateFormat'
@@ -57,13 +44,7 @@
           
         },
         methods:{
-            handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        console.log(`当前页: ${val}`);
-      }
+          
         } 
     }
 </script>
