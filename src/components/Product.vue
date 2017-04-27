@@ -64,6 +64,7 @@
         :current-page="currentPage2"
         :page-sizes="[5,10,20,30,]"
         :page-size="10"
+        :size-change="sizeChange"
         layout="sizes,prev,pager,next"
         :total="100"
         >
@@ -74,20 +75,20 @@
     </template>
     <!-- 编辑框 -->
        <el-dialog  :title="formTitle" size="middle"  v-model="isShow" @close="closeForm">
-        <el-form :model="Item"  ref="editForm" label-width="100px" >
+        <el-form :model="Item"  ref="editForm" label-width="100px" :rules="formRules" >
          <el-form-item label="管理员" props="admin" >
           <el-input v-model="Item.admin" > 
           </el-input>
          </el-form-item>
-         <el-form-item label="归还情况" >
-          <el-input > 
+         <el-form-item label="归还情况"  props="creatThing">
+          <el-input  v-model="Item.creatThing"> 
           </el-input>
          </el-form-item>
-         <el-form-item label="用户" >
-          <el-input > 
+         <el-form-item label="用户"  props="user">
+          <el-input v-model="Item.user"> 
           </el-input>
          </el-form-item>
-         <el-form-item label="时间" >
+         <el-form-item label="时间"  props="time" >
           <el-date-picker type="datetime" placeholder="选择日期时间" v-model="Item.time"></el-date-picker>
          </el-form-item>
          </el-form>
@@ -107,9 +108,10 @@
 <script>
     import NProgress from 'nprogress'
     import * as _ from 'lodash'
-    import {mapState,mapGetters} from 'vuex'
+    import {mapState,mapGetters} from 'vuex' 
     import{GameLang} from '../store/lang'
-    import {motion} from "../store/types";
+    import {motion, formAction} from "../store/types"
+  
     export default {
         name: 'product',
         data() {
@@ -142,6 +144,8 @@
         computed:{
             ...mapGetters(['getNews']),
             ...mapState({
+              AllCount: state => state.Game.Page.AllCount,
+              PageNum: state => state.Game.Page.Num,
               Item:state =>state.newlist.Item,
             })
         },
@@ -163,14 +167,14 @@
             this.isShow = true;
              this.formTitle=GameLang.edit;
              this.row = Object.assign({},row);
-             this.$store.commit("UPDATE_FORM",row);
+             this.$store.commit(formAction.UPDATE_FORM,row);
           },
     delHandler: function (row) {
           var $this = this;
         this.$confirm(GameLang.tipDel, GameLang.tip, {}).then(() => {
         $this.loading = true;
      
-        $this.$store.dispatch("Del_DATA", row.taskId).then(() => {
+        $this.$store.dispatch(motion.Del_DATA, row.taskId).then(() => {
          
           $this.loading = false;
           $this.$notify.success({
@@ -192,18 +196,35 @@
      
      savaHandler:function(){
           const _this=this;
-          _this.isShow = false;
-          _this.form.disabled = false;
-          
+          _this.form.loading = true;
+          _this.form.disabled = true;
+          NProgress.start();
+          _this.$store.dispatch(motion.ADD_DATA,_this.row).then(
+            ()=>{
+             _this.form.loading = false;
+             _this.form.disabled = false;
+             _this.isShow = false;
+             NProgress.done();
+             _this.$notify.success({message: Crud.save.suc});
+          },(data)=>{
+            NProgress.done();
+            _this.form.loading = false;
+            _this.form.disabled = false;
+            _this.$notify.erro({message:data.error})
+          });
       },
       //显示新增页面
       addHandler:function(){
           const _this=this;
-          this.formTitle=GameLang.add;
-            this.isShow = true;
-          _this.$store.dispatch(motion.ADD_DATA,_this.row)
-        
+          this.formTitle=GameLang.add;  
+          _this.$store.commit(formAction.REST_FORM); 
+           this.isShow = true;
+      },
+      sizeChange:function(){
+         this.$store.commit(motion.NOTICE_UPDATE,{key:["newslist","Page","Num"],value:size})
+         this.searchHandler();
       }
+
         }
       
     }
