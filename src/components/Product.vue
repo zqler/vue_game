@@ -1,31 +1,33 @@
-<template>
+{{<template>
     <div class="product">
        <!--工具条-->
       <div class="game-header">
       <el-input class="inline-input" v-model="Search" icon="search" placeholder="游戏名称"></el-input>
-      <el-button >查询</el-button>
-      <el-button >新增</el-button>
+      <el-button type="success" >查询</el-button>
+       <el-button type="info" @click="addHandler">新增</el-button>
     </div>
         <!--列表-->
-    <el-row>
-      <el-col :span="10" :offset="8">
+
+  <el-row>
+    <el-col :span="10" :offset="8">
       <div class="grid-content bg-purple">
-      <template>
-      <el-table :data="List" highlight-current-row style="width: 100%" >
-        <el-table-column props="name" :context="_self"  label="管理员">
-        </el-table-column>
-        <el-table-column props="sex" label="归还情况">
-        </el-table-column>
-        <el-table-column props="age" label="用户">
-        </el-table-column>
-        <el-table-column   label="操作">
-        <div>
-         <el-button type="info" size="small" @click="editHandle(row)">编辑</el-button>
-	       <el-button type="danger" size="small" @click="delHandle(row)">删除</el-button>
-        </div>
-        </el-table-column>
-      </el-table>
-      </template>
+        <!--<template>
+          <el-table :data="List" highlight-current-row style="width: 100%">
+            <el-table-column props="name" :context="_self" label="管理员">
+            </el-table-column>
+            <el-table-column props="sex" label="归还情况">
+            </el-table-column>
+            <el-table-column props="age" label="用户">
+            </el-table-column>
+            <el-table-column label="操作">
+              <div>
+                <el-button type="info" size="small" @click="editHandle(row)">编辑</el-button>
+                <el-button type="danger" size="small" @click="delHandle(row)">删除</el-button>
+              </div>
+            </el-table-column>
+          </el-table>
+
+      </template>-->
 
 <table>
  <tbody>
@@ -41,18 +43,17 @@
 <tr v-for="(task,index) in  getNews ">
 <td >{{task.admin}}</td>
 <td>{{task.creatThing}}</td>
-<td>{{task.modifyInfo.user}}</td>
-<td>{{task.modifyInfo.time}}</td>
+<td>{{task.user}}</td>
+<td>{{task.time}}</td>
 <td> 
 <div>
 
-  <el-button type="primary" @click="editHandler">修改</el-button>
-<el-button type="warning" @click="delHandler(taskId)">删除</el-button>
+  <el-button type="primary" @click="editHandler(task)">修改</el-button>
+<el-button type="warning" @click="delHandler(task.taskId)">删除</el-button>
 </div>
 </td>
 </tr>
 </tbody>
-     <el-button type="primary" @click="addHandler">增加</el-button>
     </table>
     <!--分页--> 
      <template>
@@ -116,7 +117,7 @@
         name: 'product',
         data() {
             return {
-                 currentPage2:5,
+                currentPage2:1,
                 articles: [],
                 rates:[],
                 isShow:false,
@@ -125,11 +126,7 @@
                     disabled: false
                 },
                 getNews:[],
-                List:[
-              {name:'张权',sex:'男',age:'27'},
-              {name:'陈杰',sex:'男',age:'26'},
-              {name:'赵奕欢',sex:'男',age:'27'}
-              ]
+                newslist:[]
             }
         },
           created:function(){
@@ -146,7 +143,9 @@
             ...mapState({
               AllCount: state => state.Game.Page.AllCount,
               PageNum: state => state.Game.Page.Num,
+              Page: state=>state.newlist.Page.Page,
               Item:state =>state.newlist.Item,
+              newlist:state=>state.newlist.newlist
             })
         },
         methods:{
@@ -164,14 +163,14 @@
         console.log(key, keyPath);
       },
        editHandler:function(row){
+            this.formTitle=GameLang.edit;
             this.isShow = true;
-             this.formTitle=GameLang.edit;
              this.row = Object.assign({},row);
              this.$store.commit(formAction.UPDATE_FORM,row);
           },
     delHandler: function (row) {
           var $this = this;
-        this.$confirm(GameLang.tipDel, GameLang.tip, {}).then(() => {
+        $this.$confirm(GameLang.tipDel, GameLang.tip, {}).then(() => {
         $this.loading = true;
      
         $this.$store.dispatch(motion.Del_DATA, row.taskId).then(() => {
@@ -232,3 +231,4 @@
 <style lang="sass" scoped >
     @import "../sass/layout"
 </style>
+}}

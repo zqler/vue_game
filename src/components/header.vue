@@ -69,5 +69,6 @@ import {mapState} from "vuex"
 }
 </script>
 <style lang="sass">
-      @import "../sass/common.scss"
+      @import "../sass/common.scss";
+      @import "../sass/layout.scss"
 </style>

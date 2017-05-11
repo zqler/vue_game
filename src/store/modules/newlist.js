@@ -61,11 +61,12 @@ const actions = {
 //     });
 //   },
     //删除异步操作传个后台
-    [motion.DEl_DATA]({commit},payload){
-      return http.delete("http://localhost:3000/newList",{taskId:[payload]},()=>{
-          commit(DEl_DATA,payload);
-      });
-    },
+  
+     [motion.DELETE_DATA]({commit}, payload){
+      return http.delete("http://localhost:3000/newList",{taskId: [payload]} , () => {
+      commit(motion.DELETE_DATA, payload);
+    });
+     },
     [motion.ADD_DATA]({commit,state},payload){
         if(state.Item.taskId){//id存在，编辑
            var List=state.Item;
@@ -96,10 +97,10 @@ const mutations = {
     },
     //同步页面页面删除数组
     [motion.DEL_DATA](state,payload){
-        state.newslist.splice(util.findIndex(state.newslist,'taskId',payload),1)
+       state.newslist.splice(util.findIndex(state.newslist,'taskId', payload), 1);
     },
     [motion.EDIT_DATA](state,payload){
-        state.newslist.splice(util.findIndex(state.newsList,'taskId',payload.taskId),1,payload);
+        state.newslist.splice(util.findIndex(state.newslist,'taskId',payload.taskId),1,payload);
 
     },
     [motion.INIT_DATA](state,payload){

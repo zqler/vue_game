@@ -9,6 +9,7 @@ import Login from 'components/login'
 import Select from 'components/select'
 import Nav from 'components/Nav'
 import Plan from 'components/Plan'
+import Error from 'components/Error'
 import { constants, login } from "../store/types"
 import util from "../util/util"
 import Vuex from 'vuex'
@@ -20,7 +21,10 @@ const router = new Router({
     routes: [{
             path: '/login',
             name: 'login',
-            component: Login
+            component: Login,
+            meta:{
+               title:'登录页面',
+            }
         },
         {
             path: '/home',
@@ -28,6 +32,7 @@ const router = new Router({
             component: Home,
             meta: {
                 requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                title:'首页'
             }
         },
         {
@@ -36,15 +41,19 @@ const router = new Router({
             component: Hello,
             meta: {
                 requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                title:'每日一读'
             }
         },
         {
             path: '/list',
             name: 'Productlist',
+           
             component: Productlist,
             meta: {
                 requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                title:'产品列表页'
             }
+
         },
         {
             path: '/gu',
@@ -52,6 +61,7 @@ const router = new Router({
             component: Product,
             meta: {
                 requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                 title:'列表页'
             }
         },
         {
@@ -60,11 +70,13 @@ const router = new Router({
             component: Plan,
             meta: {
                 requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                title:'学习管理'
             }
         },
-        {
+        {   name:'Error',
             path: '/',
-            redirect: '/home'
+            component:Error,
+            redirect: '/Error'
         },
         {
             path: '*',
@@ -73,6 +85,8 @@ const router = new Router({
     ]
 });
 router.beforeEach((to, from, next) => {
+    document.title=to.meta.title
+    next()
     if (!to.matched.length) {
         next({ name: 'error', params: { msg: "not found view" } });
     }

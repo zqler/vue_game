@@ -12,7 +12,7 @@
     <span class="img-txt">我们再次相遇在这天</span>
     <div class="bottom clearfix">
         <time class="time">{{currentDate}}</time>
-        <el-button type="text" @chick="clickfn">进入详情</el-button>
+        <el-button type="text" @chick="clickfn"><router-link :to="{name:'Productlist',params: { id: 123 }}">进入详情</router-link></el-button>
         
     </div>
        </div>

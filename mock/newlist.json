@@ -1,156 +1,69 @@
 {
     "newList": [{
-            "taskId": "0001",
+            "taskId": 1,
             "admin": "张权",
             "creatThing": "归还书籍",
-            "modifyInfo": {
-                "user": "张权",
-                "time": "2017-3-10  10:30"
-
-            },
+            "user": "张权",
+            "time": "2017-3-10  10:30",
             "isdeleted": true
 
         },
 
         {
-            "taskId": "0002",
+            "taskId": 2,
             "admin": "赵奕欢",
             "creatThing": "周末安排",
-            "modifyInfo": {
-                "user": "赵奕欢",
-                "time": "2017-3-12  10:00"
-            },
+            "user": "赵奕欢",
+            "time": "2017-3-12  10:00",
             "isdeleted": false
         },
         {
-            "taskId": "0003",
+            "taskId": 3,
             "admin": "陈杰",
             "creatThing": "回家",
-            "modifyInfo": {
-                "user": "陈杰",
-                "time": "2017-3-11  9:00"
-            }
+            "user": "陈杰",
+            "time": "2017-3-11  9:00",
+            "isdeleted": false
         },
         {
-            "taskId": "0004",
+            "taskId": 4,
             "admin": "庞大波",
             "creatThing": "没还书",
-            "modifyInfo": {
-                "user": "庞大波",
-                "time": "2017-3-26  9:00"
-            },
+            "user": "庞大波",
+            "time": "2017-3-26  9:00",
             "isdeleted": false
         },
         {
-            "taskId": "0005",
+            "taskId": 5,
             "admin": "廖娇",
             "creatThing": "才借书",
-            "modifyInfo": {
-                "user": "廖娇",
-                "time": "2017-3-29  19:00"
-            },
+            "user": "廖娇",
+            "time": "2017-3-29  19:00",
             "isdeleted": false
         },
         {
-            "taskId": "0005",
+            "taskId": 6,
             "admin": "李四",
             "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
+            "user": "李四",
+            "time": "2017-3-29  19:00",
             "isdeleted": false
         },
         {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
+            "taskId": 7,
+            "admin": "严格",
+            "creatThing": "没有记录",
+            "user": "严格",
+            "time": "2017-3-29  19:00",
             "isdeleted": false
         },
         {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
-            "isdeleted": false
-        },
-        {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
-            "isdeleted": false
-        },
-        {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
-            "isdeleted": false
-        },
-        {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
-            "isdeleted": false
-        },
-        {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
-            "isdeleted": false
-        },
-        {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
-            "isdeleted": false
-        },
-        {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
-            "isdeleted": false
-        },
-        {
-            "taskId": "0005",
-            "admin": "李四",
-            "creatThing": "不在",
-            "modifyInfo": {
-                "user": "李四",
-                "time": "2017-3-29  19:00"
-            },
+            "taskId": 8,
+            "admin": "魏秀燕",
+            "creatThing": "历史书",
+            "user": "魏秀艳",
+            "time": "2017-3-29  19:00",
             "isdeleted": false
         }
-
     ]
 }

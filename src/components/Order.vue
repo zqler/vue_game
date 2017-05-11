@@ -1,111 +1,60 @@
 <template>
-<el-row>
-<el-col :span="12" :offset="6">
-<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-  <el-form-item label="活动名称" prop="name">
-    <el-input v-model="ruleForm.name"></el-input>
-  </el-form-item>
-  <el-form-item label="活动区域" prop="region">
-    <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-      <el-option label="区域一" value="shanghai"></el-option>
-      <el-option label="区域二" value="beijing"></el-option>
-    </el-select>
-  </el-form-item>
-  <el-form-item label="活动时间" required>
-    <el-col :span="11">
-      <el-form-item prop="date1">
-        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-      </el-form-item>
+<div>
+  <div class="banner"></div>
+  <div class="container">
+  <div class="main">
+    <h3>认识人头马</h3>
+     <el-row :gutter="10">
+    <el-col :xs="10" :md="6" :lg="4" :span="10" :offset="1">
+    <div class="grid-content">
+       <h4 class="title">跨越三个世纪对于最优质干葡萄品种的积极探索</h4>
+       <p>{{conMsg1}}</p>
+        <p>{{conMsg2}}</p>
+        <img class="left_pic" :src="pic_pz" alt="瓶子">
+    </div>
     </el-col>
-    <el-col class="line" :span="2">-</el-col>
-    <el-col :span="11">
-      <el-form-item prop="date2">
-        <el-time-picker type="fixed-time" placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
-      </el-form-item>
+    <el-col :xs="10" :md="6" :lg="4" :span="10" :offset="2">
+    <div class="grid-content">
+       <img class="right-pic" src="../images/chart_04.jpg" alt="土壤jpg">
+        <h4>"洋溢着优质香槟区干沁人心扉的酒香，犹如一款可以品势的香水"</h4>
+        <span>ANDRÉ GIRAUD</span>
+        <p>1960年至1990年的酿酒大师</p>
+        <p> 1981年，传奇酿酒大师AndréGiraud决定向人头马干邑的核心，历经三个世纪的大、小香槟区致敬。人头马X.O，一款洋溢着</p>
+        <p>人头马X.O体现了这片土地的独特精髓，经日月传承，日臻完美，呈现大香槟区“生命之水”的方春浓郁。</p>
+        <p><strong>X.O</strong></p>
+         <router-link class="btn" :to="{ name: 'Productlist'}">发现之旅</router-link>
+    </div>
     </el-col>
-  </el-form-item>
-  <el-form-item label="即时配送" prop="delivery">
-    <el-switch on-text="" off-text="" v-model="ruleForm.delivery"></el-switch>
-  </el-form-item>
-  <el-form-item label="活动性质" prop="type">
-    <el-checkbox-group v-model="ruleForm.type">
-      <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-      <el-checkbox label="地推活动" name="type"></el-checkbox>
-      <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-      <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-    </el-checkbox-group>
-  </el-form-item>
-  <el-form-item label="特殊资源" prop="resource">
-    <el-radio-group v-model="ruleForm.resource">
-      <el-radio label="线上品牌商赞助"></el-radio>
-      <el-radio label="线下场地免费"></el-radio>
-    </el-radio-group>
-  </el-form-item>
-  <el-form-item label="活动形式" prop="desc">
-    <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-    <el-button @click="resetForm('ruleForm')">重置</el-button>
-  </el-form-item>
-</el-form>
-</el-col>
-</el-row>
+   </el-row>
+  </div>
+  <div class="main">
+    <h3>探索全系列产品</h3>
+    <img :src="picBook" alt="">
+  </div>
+  <div class="main"></div>
+  </div>
+  </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          region: [
-            { required: true, message: '请选择活动区域', trigger: 'change' }
-          ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-          ],
-          resource: [
-            { required: true, message: '请选择活动资源', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写活动形式', trigger: 'blur' }
-          ]
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+        conMsg1:'于1724年创立于夏朗德省的人头马，将永远同这片土地交织在一起，难割难分。正是在这一揽法国沃土上，诞生了由大、小香槟区共同构筑',
+        conMsg2:'已过人的耐心和热情执着而打造的卓越之作，人头马是时间的守护神。我们特别关注优质香槟产区，葡萄成熟后尽可能晚地采摘，以便使其香味更浓郁，使其完全释放和展现自身真实品色。',
+        pic_pz:'../../static/pz_08.jpg',
+        picBook:'../../static/histroy.jpg',
+        url:'/list'
+       
       }
+    },
+    methods:{
+      url:function(){
+        this.$router.go('/list');
+      }
+    
     }
   }
 </script>
+<style lang="scss" scoped>
+    @import "../sass/layout.scss";
+</style>
