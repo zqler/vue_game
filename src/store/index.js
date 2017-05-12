@@ -5,10 +5,9 @@ import actions from './actions';
 import getters from './getters';
 import newlist from './modules/newlist';
 import newslist from './modules/newlist';
-import { constants, login, motion } from './types';
+import {constants, login, motion} from './types';
 import util from "util/util";
 Vue.use(Vuex);
-
 
 const localStore = localStorage;
 const sessionStore = sessionStorage;
@@ -21,7 +20,10 @@ const savaStore = store => {
         }
         if (mutation.type == login.LOGIN_SUCCESS || mutation.type == motion.NOTICE_UPDATE) {
             //保存最新的state
-            util.setStorage({ key: constants.SAVE_STORE_KEY, data: state }, true);
+            util.setStorage({
+                key: constants.SAVE_STORE_KEY,
+                data: state
+            }, true);
             if (mutation.type == login.LOGIN_SUCCESS) {
                 // 登陆成功保存必要信息
                 sessionStore.setItem(constants.IS_LOGIN_KEY, true);
@@ -62,5 +64,5 @@ export default new Vuex.Store({
     plugins: [savaStore],
     modules: {
         newlist
-    },
+    }
 })

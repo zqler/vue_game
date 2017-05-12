@@ -1,88 +1,94 @@
-
 import Vue from 'vue';
 import * as _ from "lodash";
-import {motion,constants,formAction} from "../types";
+import {motion, constants, formAction} from "../types";
 import util from "util/util";
 import http from '../http';
 const state = {
-    Initnewslist:{
-       taskId:''
+    Initnewslist: {
+        taskId: ''
     },
-    InitItem:{
-        taskId:"",
-        admin:"",
-        creatThing:"",
-        user:"",
-        time:""
+    InitItem: {
+        taskId: "",
+        admin: "",
+        creatThing: "",
+        user: "",
+        time: ""
     },
-    Page:{
-    Num:10,
-    Page:1,
-    AllCount:0,
-    AllPage:0
-  },
-    Item:{},
+    Page: {
+        Num: 10,
+        Page: 1,
+        AllCount: 0,
+        AllPage: 0
+    },
+    Item: {},
     newslist: []
 
 }
 const getters = {
-     gLength(state){
-    return state.newslist.length || 0;
-  },
+    gLength(state) {
+        return state.newslist.length || 0;
+    },
     getNews: state => {
-        return state.newslist.filter(function(news) {
-            return !news.isdeleted;
-        })
-         },
-   gGetPage: (  state)=>{
-       return{
-         Num:state.Page.Num,
-         Page:state.Page.Page,
-         Status:state.Status,
-         Search:state.Search
-       } 
+        return state
+            .newslist
+            .filter(function (news) {
+                return !news.isdeleted;
+            })
+    },
+    gGetPage: (state) => {
+        return {Num: state.Page.Num, Page: state.Page.Page, Status: state.Status, Search: state.Search}
     }
 }
 //异步操作
 const actions = {
-    [motion.LOADING_DATA]({ commit, state }, payload) {
+    [motion.LOADING_DATA]({
+        commit,
+        state
+    }, payload) {
         if (state.newslist.length == 0) {
-            Vue.http.get("http://localhost:3000/newList").then(function(res) {
-                //成功
-                commit(motion.LOADING_DATA, res.body);
-            }, function(res) {
-                //失败
-            })
+            Vue
+                .http
+                .get("http://localhost:3000/newlist")
+                .then(function (res) {
+                    //成功
+                    commit(motion.LOADING_DATA, res.body);
+                }, function (res) {
+                    //失败
+                })
         }
     },
-//       [GET_DATA]({commit,getters}){
-//     return http.get("http://localhost:3000/newList",getters.gGetPage,function (data) {
-//       commit(GET_DATA,data);
-//     });
-//   },
-    //删除异步操作传个后台
-  
-     [motion.DELETE_DATA]({commit}, payload){
-      return http.delete("http://localhost:3000/newList",{taskId: [payload]} , () => {
-      commit(motion.DELETE_DATA, payload);
-    });
-     },
-    [motion.ADD_DATA]({commit,state},payload){
-        if(state.Item.taskId){//id存在，编辑
-           var List=state.Item;
-           if(!_.isEqual(newslist,payload||{})){
-             newslist.time =util.formatDate.format(List.time);
-              return http.put("http://localhost:3000/newList",List,()=>{
-                  commit(motion.EDIT_DATA,List);
-              });
-           }
-         return new Promise((resolve, reject)=> {
-          reject({errorCode: constants.NO_MODIFY})
-      })
+    [motion.DELETE_DATA]({
+        commit
+    }, payload) {
+        return http.delete("http://localhost:3000/newlist", {
+            taskId: [payload]
+        }, () => {
+            commit(motion.DELETE_DATA, payload);
+        });
+    },
+    [motion.ADD_DATA]({
+        commit,
+        state
+    }, payload) {
+        if (state.Item.taskId) { //id存在，编辑
+            var List = state.Item;
+            if (!_.isEqual(List, payload || {})) {
+                List.time = util
+                    .formatDate
+                    .format(List.time);
+                return http.put("http://localhost:3000/newlist", List, () => {
+                    commit(motion.EDIT_DATA, List);
+                });
+            }
+            return new Promise((resolve, reject) => {
+                reject({errorCode: constants.NO_MODIFY})
+            })
         }
-       state.Item =util.formatDate.format(List.time);
-        return http.post("http://localhost:3000/newList",state.Item,(data)=>{
-            commit(motion.ADD_DATA,data);
+        state.Item.time = util
+            .formatDate
+            .format(List.time);
+        return http.post("http://localhost:3000/newlist", state.Item, (data) => {
+            commit(motion.ADD_DATA, data);
         })
     }
 }
@@ -93,33 +99,42 @@ const mutations = {
         state.Page.Num = payload.Num;
         state.Page.AllPage = payload.AllPage;
         state.Page.Page = payload.Page;
-        state.newslist = payload;      
+        state.newslist = payload;
     },
     //同步页面页面删除数组
-    [motion.DEL_DATA](state,payload){
-       state.newslist.splice(util.findIndex(state.newslist,'taskId', payload), 1);
+    [motion.DEL_DATA](state, payload) {
+        state
+            .newslist
+            .splice(util.findIndex(state.newslist, 'taskId', payload), 1);
     },
-    [motion.EDIT_DATA](state,payload){
-        state.newslist.splice(util.findIndex(state.newslist,'taskId',payload.taskId),1,payload);
+    [motion.EDIT_DATA](state, payload) {
+        state
+            .newslist
+            .splice(util.findIndex(state.newslist, 'taskId', payload.taskId), 1, payload);
 
     },
-    [motion.INIT_DATA](state,payload){
-        state.Item=payload;
+    [motion.INIT_DATA](state, payload) {
+        state.Item = payload;
     },
-    [motion.ADD_DATA](state,payload){
-        state.Item.TaskId=payload.taskId;
-        state.newslist.unshift(state.Item);
+    [motion.ADD_DATA](state, payload) {
+        state.Item.TaskId = payload.taskId;
+        state
+            .newslist
+            .unshift(state.Item);
     },
-   [formAction.UPDATE_FORM](state, payload){
+    [formAction.UPDATE_FORM](state, payload) {
         state.Item = _.cloneDeep(payload);
     },
-    [formAction.REST_FORM](state,payload){
+    [formAction.REST_FORM](state, payload) {
         state.Item = _.cloneDeep(state.InitItem);
     },
-    [motion.NOTICE_UPDATE](state,payload){
+    [motion.NOTICE_UPDATE](state, payload) {
         state.Item = payload;
     }
 }
-export default { state, getters, actions, mutations };
-
-
+export default {
+    state,
+    getters,
+    actions,
+    mutations
+};
