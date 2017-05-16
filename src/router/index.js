@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from 'components/Home'
-import Hello from 'components/Hello'
+import Read from 'components/read'
 import Productlist from 'components/Productlist'
 import resource from 'vue-resource'
 import Product from 'components/Product'
@@ -38,8 +38,8 @@ const router = new Router({
             }
         }, {
             path: '/foo',
-            name: 'Hello',
-            component: Hello,
+            name: 'Read',
+            component: Read,
             meta: {
                 requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
                 title: '每日一读',

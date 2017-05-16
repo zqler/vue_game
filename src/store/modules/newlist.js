@@ -4,9 +4,6 @@ import {motion, constants, formAction} from "../types";
 import util from "util/util";
 import http from '../http';
 const state = {
-    Initnewslist: {
-        taskId: ''
-    },
     InitItem: {
         taskId: "",
         admin: "",
@@ -21,51 +18,47 @@ const state = {
         AllPage: 0
     },
     Item: {},
-    newslist: []
+    newslist: [],
+    Search:""
 
 }
 const getters = {
-    gLength(state) {
-        return state.newslist.length || 0;
-    },
-    getNews: state => {
-        return state
-            .newslist
-            .filter(function (news) {
-                return !news.isdeleted;
-            })
-    },
+     gLength(state){
+    return state.newslist.length || 0;
+  },
     gGetPage: (state) => {
-        return {Num: state.Page.Num, Page: state.Page.Page, Status: state.Status, Search: state.Search}
+        return {
+            Num: state.Page.Num, 
+            Page: state.Page.Page, 
+            Status: state.Status, 
+            Search: state.Search
+        }
     }
 }
 //异步操作
 const actions = {
+    [motion.LOADING_DATA]({commit,getters}){
+    return http.get("http://localhost:3000/newlist",getters.gGetPage,function (data) {
+      commit(motion.LOADING_DATA,data.body);
+    });
+  },
     [motion.LOADING_DATA]({
         commit,
         state
     }, payload) {
         if (state.newslist.length == 0) {
-            Vue
-                .http
-                .get("http://localhost:3000/newlist")
-                .then(function (res) {
-                    //成功
-                    commit(motion.LOADING_DATA, res.body);
-                }, function (res) {
-                    //失败
-                })
+            Vue.http.get("http://localhost:3000/newlist",getters.gGetPage).then(function (res) {  //成功   
+            commit(motion.LOADING_DATA, res.body);
+            }, function (res) {
+            //失败
+        })
         }
     },
-    [motion.DELETE_DATA]({
-        commit
-    }, payload) {
-        return http.delete("http://localhost:3000/newlist", {
-            taskId: [payload]
-        }, () => {
-            commit(motion.DELETE_DATA, payload);
-        });
-    },
+      [motion.DEL_DATA]({commit}, payload){
+    return http.delete("http://localhost:3000/newlist", {taskId: [payload]} , () => {
+      commit(motion.DELETE_DATA, payload);
+    });
+  },
     [motion.ADD_DATA]({
         commit,
         state
@@ -103,14 +96,11 @@ const mutations = {
     },
     //同步页面页面删除数组
     [motion.DEL_DATA](state, payload) {
-        state
-            .newslist
-            .splice(util.findIndex(state.newslist, 'taskId', payload), 1);
+        state.newslist.splice(util.findIndex(state.newslist, 'taskId', payload), 1);
     },
+    //同步页面页面编辑
     [motion.EDIT_DATA](state, payload) {
-        state
-            .newslist
-            .splice(util.findIndex(state.newslist, 'taskId', payload.taskId), 1, payload);
+        state.newslist.splice(util.findIndex(state.newslist, 'taskId', payload.taskId), 1, payload);
 
     },
     [motion.INIT_DATA](state, payload) {
@@ -118,9 +108,7 @@ const mutations = {
     },
     [motion.ADD_DATA](state, payload) {
         state.Item.TaskId = payload.taskId;
-        state
-            .newslist
-            .unshift(state.Item);
+        state.newslist.unshift(state.Item);
     },
     [formAction.UPDATE_FORM](state, payload) {
         state.Item = _.cloneDeep(payload);

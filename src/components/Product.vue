@@ -2,8 +2,8 @@
   <div class="product">
     <!--工具条-->
     <div class="game-header">
-      <el-input class="inline-input" v-model="Search" icon="search" placeholder="游戏名称"></el-input>
-      <el-button type="success">查询</el-button>
+      <el-input class="inline-input" v-model="Search" icon="search" placeholder="名字"></el-input>
+      <el-button type="success" @click="searchHandler">查询</el-button>
       <el-button type="info" @click="addHandler">新增</el-button>
     </div>
     <!--列表-->
@@ -11,24 +11,6 @@
     <el-row>
       <el-col :span="10" :offset="8">
         <div class="grid-content bg-purple">
-          <!--<template>
-            <el-table :data="List" highlight-current-row style="width: 100%">
-              <el-table-column props="name" :context="_self" label="管理员">
-              </el-table-column>
-              <el-table-column props="sex" label="归还情况">
-              </el-table-column>
-              <el-table-column props="age" label="用户">
-              </el-table-column>
-              <el-table-column label="操作">
-                <div>
-                  <el-button type="info" size="small" @click="editHandle(row)">编辑</el-button>
-                  <el-button type="danger" size="small" @click="delHandle(row)">删除</el-button>
-                </div>
-              </el-table-column>
-            </el-table>
-  
-        </template>-->
-  
           <table>
             <tbody>
               <tr>
@@ -37,19 +19,17 @@
                 <th>用户</th>
                 <th>时间</th>
                 <th>编辑</th>
-  
               </tr>
-  
-              <tr v-for="(task,index) in  getNews ">
+              <tr v-for="(task,index) in  newslist ">
                 <td>{{task.admin}}</td>
                 <td>{{task.creatThing}}</td>
                 <td>{{task.user}}</td>
                 <td>{{task.time}}</td>
-                <td>
+                <td>  
                   <div>
   
                     <el-button type="primary" @click="editHandler(task)">修改</el-button>
-                    <el-button type="warning" @click="delHandler(task.taskId)">删除</el-button>
+                    <el-button type="warning" @click="delHandler(task)">删除</el-button>
                   </div>
                 </td>
               </tr>
@@ -59,7 +39,15 @@
           <template>
             <div class="block">
               <span class="demostration"></span>
-              <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage2" :page-sizes="[5,10,20,30,]" :page-size="10" :size-change="sizeChange" layout="sizes,prev,pager,next" :total="100">
+              <el-pagination 
+               @size-change="sizeChange"
+              @current-change="currentChange"
+              :current-page="10" 
+              :page-sizes="[5,10,20,30,]" 
+              :page-size="PageNum" 
+              :size-change="sizeChange" 
+              layout="sizes,prev,pager,next,jumper" 
+              :total="1000">
   
               </el-pagination>
             </div>
@@ -86,7 +74,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="closeForm"> 取消</el-button>
-              <el-button type="primary" @click="savaHandler">保存</el-button>
+              <el-button type="primary" @click="savaHandler" :loading="form.loading" :disabled="form.disabled">保存</el-button>
             </div>
           </el-dialog>
         </div>
@@ -127,15 +115,16 @@ export default {
     })
 
   },
-  computed: {
-    ...mapGetters(['getNews']),
+  computed: { 
     ...mapState({
-      AllCount: state => state.Game.Page.AllCount,
-      PageNum: state => state.Game.Page.Num,
+      AllCount: state => state.newlist.Page.AllCount,
+      PageNum: state => state.newlist.Page.Num,
       Page: state => state.newlist.Page.Page,
       Item: state => state.newlist.Item,
-      newlist: state => state.newlist.newlist
-    })
+      newslist: state => state.newlist.newslist,
+      Search: state => state.newlist.Search
+    }),
+     ...mapGetters(['headers'])
   },
   methods: {
     handleSizeChange(val) {
@@ -157,13 +146,14 @@ export default {
       this.row = Object.assign({}, row);
       this.$store.commit(formAction.UPDATE_FORM, row);
     },
-    delHandler: function (row) {
+    //删除
+      delHandler: function (row) {
       var $this = this;
-      $this.$confirm(GameLang.tipDel, GameLang.tip, {}).then(() => {
+      this.$confirm(GameLang.tipDel, GameLang.tip, {}).then(() => {
         $this.loading = true;
-
-        $this.$store.dispatch(motion.Del_DATA, row.taskId).then(() => {
-
+        NProgress.start();
+        $this.$store.dispatch(motion.DEl_DATA, row.taskId).then(() => {
+          NProgress.done();
           $this.loading = false;
           $this.$notify.success({
             message: Crud.del.suc
@@ -172,9 +162,9 @@ export default {
           $this.$notify.error({
             message: Crud.del.err
           });
-
+          $this.loading = false;
         })
-      }, () => {
+      },()=> {
       });
     },
     closeForm: function () {
@@ -213,10 +203,20 @@ export default {
       $this.$store.commit(formAction.REST_FORM);
       this.isShow = true;
     },
-    sizeChange: function () {
+    searchHandler:function(){
+       const $this = this;
+       $this.loading=true;
+       this.$store.dispatch(motion.LOADING_DATA).then(() =>{
+         $this.loading=false;
+       },()=>{})
+    },
+    sizeChange: function (size) {
       this.$store.commit(motion.NOTICE_UPDATE, { key: ["newslist", "Page", "Num"], value: size })
       this.searchHandler();
-    }
+    },
+     currentChange:function(cur){
+        this.store.commit(motion.NOTICE_UPDATE,{key:["newslist","Page","Page"],value:cur})
+     }
 
   }
 
