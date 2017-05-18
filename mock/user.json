@@ -1,73 +1,10 @@
 {
-  "users": [
-    {
-      "id": 1,
-      "user": "aaa",
-      "password": "aaa"
-    },
-    {
-      "id": 2,
-      "user": "bbb",
-      "password": "bbb"
-    },
-    {
-      "id": 3,
-      "user": "ccc",
-      "password": "ccc"
-    },
-    {
-      "AdminID": null,
-      "UserName": "aa",
-      "PassWord": "4124bc0a9335c27f086f24ba207a4912",
-      "id": 4
-    },
-    {
-      "AdminID": null,
-      "UserName": "张权",
-      "PassWord": "a0299596017ba4932b017087ed0414f7",
-      "id": 5
-    },
-    {
-      "AdminID": null,
-      "UserName": "111",
-      "PassWord": "698d51a19d8a121ce581499d7b701668",
-      "id": 6
-    },
-    {
-      "AdminID": null,
-      "UserName": "aaa",
-      "PassWord": "47bce5c74f589f4867dbd57e9ca9f808",
-      "id": 7
-    },
-    {
-      "AdminID": null,
-      "UserName": "aaa",
-      "PassWord": "47bce5c74f589f4867dbd57e9ca9f808",
-      "id": 8
-    },
-    {
-      "AdminID": null,
-      "UserName": "eee",
-      "PassWord": "d2f2297d6e829cd3493aa7de4416a18f",
-      "id": 9
-    },
-    {
-      "AdminID": null,
-      "UserName": "aaa",
-      "PassWord": "47bce5c74f589f4867dbd57e9ca9f808",
-      "id": 10
-    },
-    {
-      "AdminID": null,
-      "UserName": "sss",
-      "PassWord": "9f6e6800cfae7749eb6c486619254b9c",
-      "id": 11
-    },
-    {
-      "AdminID": null,
-      "UserName": "啊啊啊",
-      "PassWord": "399c0e1987230ff952dd37caa9f78b99",
-      "id": 12
-    }
-  ]
+    "users": [{
+        "Id": 1,
+        "username": "admin",
+        "password": "21232f297a57a5a743894a0e4a801fc3",
+        "avatar": "",
+        "name": "张权",
+        "msg": "登录成功"
+    }]
 }

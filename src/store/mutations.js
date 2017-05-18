@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import * as _ from "lodash";
-import { login, constants, motion } from './types'
+import {login, constants, motion} from './types'
 const MENU_CHANGE = "MENU_CHANGE";
 export default {
     [login.LOGIN_SUCCESS](state, info) {
@@ -28,7 +28,7 @@ export default {
         if (_.isArray(payload.key)) {
             let temp = state;
             const lastKey = payload.key.pop();
-            _.each(payload.key, function(key) {
+            _.each(payload.key, function (key) {
                 temp = temp[key];
             });
             temp[lastKey] = payload.value;

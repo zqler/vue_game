@@ -17,7 +17,7 @@ export default {
     getUserId: (state) => {
         return state.login.UserID;
     },
-    dateFormat: state => {
+    dateFormat: (state) => {
         return `${state.nowDate.getFullYear()}-${state.nowDate.getMonth()+1}-${state.nowDate.getDate()}  ${state.nowDate.getHours()}:${state.nowDate.getMinutes()}:${state.nowDate.getSeconds()}`;
     }
 }

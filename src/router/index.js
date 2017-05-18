@@ -9,6 +9,7 @@ import Login from 'components/login'
 import Select from 'components/select'
 import Nav from 'components/Nav'
 import Plan from 'components/Plan'
+import Register from 'components/register'
 import Error from 'components/Error'
 import {constants, login} from "../store/types"
 import util from "../util/util"
@@ -20,14 +21,24 @@ Vue.use(resource)
 const router = new Router({
     routes: [
         {
-            path: '/',
+            path: '/login',
             name: 'login',
             component: Login,
             meta: {
                 title: '登录页面',
                 navShow: false
             }
-        }, {
+        },
+        {
+            path: '/re',
+            name: 'reg',
+            component: Register,
+            meta: {
+                title: '注册',
+                navShow: false
+            }
+        },
+         {
             path: '/home',
             name: 'Home',
             component: Home,
@@ -96,45 +107,34 @@ router.beforeEach((to, from, next) => {
             }
         });
     }
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (router.app.$store.state.login.isLogin) {
-            next();
-        } else {
-            const token = sessionStorage.getItem(constants.USER_TOKEN);
-            Vue.http.headers.common['UserToken'] = String(token);
-            router.app.$store.dispatch(login.CHECK_TOKEN)
-                .then(() => {
-                    const state = util.getStorage(constants.SAVE_STORE_KEY, true);
-                    if(state) {
-                        router
-                            .app
-                            .$store
-                            .replaceState(state);
-                        if(/\/login/.test(to.path)) {
-                            next({path: '/'})
-                        } else {
-                            next({path: to.path, query: to.query, params: to.params});
-                        }
-                    } else {
-                        next({
-                            path: '/',
-                            query: {
-                                redirect: encodeURIComponent(to.path)
-                            }
-                        });
-                    }
-                }, () => {
-                    next({
-                        path: '/',
-                        query: {
-                            redirect: encodeURIComponent(to.path)
-                        }
-                    });
-                });
-        }
-    } else {
-        next();
+ if(to.matched.some(record => record.meta.requiresAuth)){
+    if(router.app.$store.state.login.isLogin){  //判断是否登录
+      next();
     }
-
+    else{
+      const token = sessionStorage.getItem(constants.USER_TOKEN);
+      Vue.http.headers.common['UserToken'] = String(token);
+      router.app.$store.dispatch(login.CHECK_TOKEN).then(()=>{ 
+        const state = util.getStorage(constants.SAVE_STORE_KEY,true);
+        if(state){
+          router.app.$store.replaceState(state);
+          if(/\/login/.test(to.path)){
+            next({path:'/'})
+          }
+          else{
+            next({path:to.path,query:to.query,params:to.params});
+          }
+        }
+        else{
+          next({path:'/login', query:{redirect:encodeURIComponent(to.path)}});
+        }
+      },()=>{
+        next({path:'/login', query:{redirect:encodeURIComponent(to.path)}});
+      });
+    }
+  }
+  else{
+    next();
+  }
 });
 export default router;

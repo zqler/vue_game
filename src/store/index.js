@@ -51,6 +51,7 @@ const state = {
         isSuccess: false,
         msg: ''
     },
+    aesKey:"xer",
     menuState: {
         change: "/home"
     },
