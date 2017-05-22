@@ -11,9 +11,10 @@
       </el-form-item>
       <el-checkbox v-model="checked" checked class="login-check">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
-        <el-button type="primary" style="width:70%;" @click.native.prevent="loginHandler">登录</el-button>
-        <el-button  style="width:20%;"  @click.native.prevent="register">注册</el-button>
-      </el-form-item>
+        <el-button type="primary" style="width:60%;" @click.native.prevent="loginHandler">登录</el-button>
+          <router-link to="/reg" style="width:30%">
+              <el-button type="">立即注册<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+        </router-link>
     </el-form>
   </div>
 </template>
@@ -77,8 +78,8 @@
         });
       }
     },
-   register(){
-       this.$router.go('/home')
+   register:function(){
+       this.$router.push('/reg')
     }
   }
 </script>

@@ -152,7 +152,7 @@ export default {
       this.$confirm(GameLang.tipDel, GameLang.tip, {}).then(() => {
         $this.loading = true;
         NProgress.start();
-        $this.$store.dispatch(motion.DEl_DATA, row.taskId).then(() => {
+        $this.$store.dispatch(motion.DEL_DATA, row.taskId).then(() => {
           NProgress.done();
           $this.loading = false;
           $this.$notify.success({

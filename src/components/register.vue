@@ -1,91 +1,118 @@
-<template >
-  <div class="register">
-    <h2>登录成功，可进行注册</h2>
-    <form class="register-form">
-      <div class="form-group">
-        <label class="label-info">账号:</label>
-        <input class="input-info" type="text" v-model="user.userName" />
-      </div>
-      <div class="form-group">
-        <label class="label-info">密码:</label>
-        <input class="input-info" type="password" v-model="user.password" />
-      </div>
-      <div class="form-group">
-        <label class="label-info">确认密码:</label>
-        <input class="input-info" type="password" v-model="password" />
-        <label v-show="show" class="check">密码不一致!</label>
-      </div>
-      <div class="form-control">
-        <button class="button" type="reset">重置</button>
-        <button class="button" type="submit" @click="register">注册</button>
-      </div>
-    </form>
-  </div>
+<template>
+<div  class="box-card">
+  <el-card  style=" background: #324057">
+    <el-row type="flex" justify="center">
+      <el-col :span="6">
+        <el-form
+         label-position="left" 
+         label-width="80px" 
+         :model="formRegister"
+         :rules="rules"
+         ref="formRegister">
+          <el-form-item label="账号" prop="name">
+            <el-input v-model="formRegister.name"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input v-model="formRegister.password"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码" prop="checkPassword">
+            <el-input v-model="formRegister.checkPassword"></el-input>
+          </el-form-item>
+          <el-form-item>
+              <el-button type="primary" @click="addUser">立即注册</el-button>
+              <el-button>取消</el-button>
+            </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+  </el-card>
+   </div>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-      password: '',
-      user: {
-        userName: '',
-        password: '',
-      },
-      show: false,
-      regUrl: "http://localhost:3000/users"
-    };
-  },
-  computed: {
-    password () {
-      if (this.password != this.user.password) {
-        this.show = true;
+<script type="text/javascript">
+  export default {
+    data(){
+      let checkUserName = (rule,value,cb)=>{
+        if(!value){
+          return cb(new Error('账户不能为空!'))
+        }else{
+          cb(); // 将判断传递给后面
+        }
+
+      }
+      let checkPassword = (rule,value,cb)=>{
+        if(!value){
+          return cb(new Error('密码不能为空!'))
+         }else{
+          cb();
+         }
+      }
+      let checkPasswordAgain = (rule,value,cb)=>{
+        if(!value){
+          return cb(new Error('再次输入密码不能为空!'))
+         }else if(value !== this.formRegister.password){
+          return cb(new Error('两次输入密码不一致!'));
+         }else{
+          cb();
+         }
+      }
+
+      return{
+        formRegister:{
+          name: '',
+          password: '',
+          checkPassword: ''
+        },
+        rules:{
+          name:[
+            {validator:checkUserName,trigger: 'blur'}
+          ],
+          password:[
+            {validator:checkPassword,trigger: 'blur'}
+          ],
+          checkPassword:[
+            {validator:checkPasswordAgain,trigger: 'blur'}
+          ]
+        }
+      }
+    },
+    methods:{
+      // 用户注册
+      addUser(){
+        let user = this.formRegister;
+        let formData = {
+          name: user.name,
+          password: user.password
+        };
+        // 表单验证
+        this.$refs['formRegister'].validate((valid)=>{
+          if(valid){
+            this.$http.post('/api/register',formData)
+            .then(res => {
+              console.dir(res.data)
+              if (res.data.error) {
+                this.$message.error(res.data.error);
+                return false;
+              }else{
+                this.$router.push('/login')
+              }
+            })
+            .catch(err => {
+                this.$message.error(`${err.message}`)
+            })
+          }else{
+            this.$message.error('表单验证失败!')
+            return false;
+          }
+        })
       }
     }
-  },
-  methods: {
-    register() {
-      this.$http.post(this.regUrl, this.user).then((response) => {
-        console.log("register: " + response);
-      });
-    }
   }
-};
 </script>
-
-<style lang="sass" >
-.register
-  position: relative; 
-  left: 30%;
-  top: 10em;
-  width: 40%;
-  font-family: Arial;
-  .register-form
-    margin: 0 auto;
-    width: 80%;
-    font-size: 18px;
-    .form-group
-      padding-top: 10px;
-      height: 60px;
-      .label-info
-        width: 45%;
-        height: 60px;
-        line-height: 60px;
-        text-align: right;
-        font-weight: bold;
-      .input-info
-        width: 55%;
-        height: 35px;
-        border-radius: 4px;
-        font-size: 18px;
-        outline: none;
-      .check
-        color: red;
-    .form-control
-      text-align: right;
-      margin-right: 62px;
-      .button
-        width: 100px;
-        height: 30px;
-        border-radius: 5px;
+<style lang="sass">
+  .box-card
+    height: 85.4%;
+    background: #324057
+    padding-top: 120px
+    text-align: center
 </style>

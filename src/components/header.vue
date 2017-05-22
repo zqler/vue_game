@@ -16,13 +16,13 @@ import {mapState} from "vuex"
     name:'header',
     data(){
         return{
-            active:'/home',
+            active:'/',
             mode:'horizontal',
             theme:'dark',
             router:true,
   menu:[
         {
-          index:'/home',
+          index:'/',
           icon:'el-icon-menu',
           msg:'首页'
         },
