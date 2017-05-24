@@ -77,9 +77,6 @@
           }
         });
       }
-    },
-   register:function(){
-       this.$router.push('/reg')
     }
   }
 </script>

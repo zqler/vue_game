@@ -11,6 +11,7 @@ import Nav from 'components/Nav'
 import Plan from 'components/Plan'
 import Error from 'components/Error'
 import Register from 'components/register'
+import Detail  from 'components/Detail'
 import {constants, login} from "../store/types"
 import util from "../util/util"
 import Vuex from 'vuex'
@@ -32,8 +33,8 @@ routes: [
     },
     {
         path: '/login',
-        name: 'login',
         component: Login,
+        hidden: true,
         meta: {
             title: '登录页面',
             navShow: false
@@ -57,18 +58,28 @@ routes: [
             title: '每日一读',
             navShow: true
         }
-    }, {
+    },
+     {
         path: '/list',
         name: 'Productlist',
-
         component: Productlist,
         meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            title: '产品列表页',
+            title: '列表页',
             navShow: true
         }
-
-    }, {
+    },
+    {
+        path: '/list/:id',
+        name: 'Detail',
+        component: Detail,
+        meta: {
+            requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+            title: '详情页',
+            navShow: true
+        }
+    },
+     {
         path: '/gu',
         name: 'Product',
         component: Product,

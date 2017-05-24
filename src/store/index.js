@@ -55,7 +55,7 @@ const state = {
     menuState: {
         change: "/home"
     },
-    nowDate: new Date()
+    nowDate:[]
 }
 export default new Vuex.Store({
     state,

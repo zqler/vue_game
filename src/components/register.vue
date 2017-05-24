@@ -1,6 +1,5 @@
 <template>
 <div  class="box-card">
-  <el-card  style=" background: #324057">
     <el-row type="flex" justify="center">
       <el-col :span="6">
         <el-form
@@ -25,7 +24,6 @@
         </el-form>
       </el-col>
     </el-row>
-  </el-card>
    </div>
 </template>
 

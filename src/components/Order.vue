@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="banner"></div>
+    <div class="banner">
+    </div>
     <div class="container">
       <div class="main">
         <h3>认识人头马</h3>
@@ -45,8 +46,7 @@ export default {
       conMsg2: '已过人的耐心和热情执着而打造的卓越之作，人头马是时间的守护神。我们特别关注优质香槟产区，葡萄成熟后尽可能晚地采摘，以便使其香味更浓郁，使其完全释放和展现自身真实品色。',
       pic_pz: '../../static/pz_08.jpg',
       picBook: '../../static/histroy.jpg',
-      url: '/list'
-
+      url: '/list',
     }
   },
   methods: {
