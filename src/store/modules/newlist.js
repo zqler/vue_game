@@ -83,7 +83,12 @@ const actions = {
         return http.post("http://localhost:3000/newlist", state.Item, (data) => {
             commit(motion.ADD_DATA, data);
         })
-    }
+    },
+    [motion.CHANGE_STATE]({commit}, payload){
+    return http.put("http://localhost:3000/newlist",{"taskId": payload}, (data) => {
+      commit(motion.CHANGE_STATE,Object.assign({"taskId": payload}, data));
+    });
+  },
 }
 //mutations  同步操作
 const mutations = {
@@ -118,7 +123,11 @@ const mutations = {
     },
     [motion.NOTICE_UPDATE](state, payload) {
         state.Item = payload;
-    }
+    },
+    [motion.CHANGE_STATE](state, payload){
+    const Item = util.find(state.newslist,'taskId', payload.taskId);
+    Item.State = payload.state;
+  }
 }
 export default {
     state,

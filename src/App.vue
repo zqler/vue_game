@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Headnav v-show="$route.meta.navShow"></Headnav><!--根据路由显示导航栏-->
-    <transition name="bounce">
+    <transition name="bounce"><!--路由切换动画-->
       <router-view></router-view>
     </transition>
   </div>

@@ -1,11 +1,24 @@
 
 var express = require('express');
 var router = express.Router();
+var data = require('./server/data')
 router.use(function(req,res,next){
-    console.log(req.param('password'));
-    next();
+      var s = "[" + Date.now() + "] :" + req.url + ";" + req.header('UserToken');
+  console.info(s);
+  next();
+   
 });
-router.post('/users',function(req,res){
-     res.json({errcode:0,resultDate:{UserToken:'11',NIkeName:'测试',SuperAdmin:'1',AdminID:'1'}});   
+router.post('/login', function (req, res) {
+    var user = {
+ phone:'admin',
+ password:'admin'
+}
+  var name = req.param('UserName');
+  var password = req.param('PassWord');
+  if(name == undefined && password == undefined){
+  console.info("[Login] name:" + name + " password: " + password);
+       res.json(data.login) 
+  }
+
 });
 module.exports = router;

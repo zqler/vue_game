@@ -36,7 +36,7 @@ module.exports = {
         cssSourceMap: false
     },
     proxyTable: {
-        '/api/': {
+        '/api': {
             target: 'http//localhost:3000/users',
             changeOrigin: true,
             pathRewrite: {

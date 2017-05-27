@@ -1,7 +1,6 @@
 <template >
 <div class="data">
   <h1 class="txt-shadow">{{ msg }}</h1>
-  <time>现在时间是：{{dateFormat}}</time>
   <el-row>
     <el-col :span="12" :offset="8"><div class="grid-content bg-purple-dark">
   <el-breadcrumb separator="/">
@@ -32,13 +31,13 @@ import {mapState,mapGetters} from 'vuex'
       data() {
           return {
               msg: '未来还是要有规划的，一步步实现小目标',
-              nowDate:'',
+            
               
               
           }
       },
         creat:function(){
-        setTimeout(this.dateFormat,1000)
+      
       },
       computed:{
         ...mapGetters([
