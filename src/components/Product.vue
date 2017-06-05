@@ -54,7 +54,7 @@
 </template>
           <!-- 编辑框 -->
           <el-dialog :title="formTitle" size="middle" v-model="isShow" @close="closeForm">
-            <el-form :model="Item" ref="editForm" label-width="100px" :rules="formRules">
+            <el-form :model="Item" ref="editForm" label-width="100px" >
               <el-form-item label="管理员" props="admin">
                 <el-input v-model="Item.admin">
                 </el-input>
@@ -110,9 +110,8 @@
         formTitle: '',
         form: {
           disabled: false
-        },
-        getNews: [],
-        newslist: []
+        }
+       
       }
     },
     created: function() {

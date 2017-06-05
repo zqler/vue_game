@@ -1,6 +1,4 @@
-/**
- * Created by wenruo on 2016/12/16.
- */
+
 var express = require('express');
 var router = express.Router();
 

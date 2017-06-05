@@ -15,6 +15,7 @@
           <router-link to="/reg" style="width:30%">
               <el-button type="">立即注册<i class="el-icon-arrow-right el-icon--right"></i></el-button>
         </router-link>
+          </el-form-item>
     </el-form>
   </div>
 </template>

@@ -8,7 +8,7 @@ module.exports = {
       AdminID:1,
       NikeName:"wenruo",
       SuperAdmin:1,
-      UserToken:"xer",
+      UserToken:"xer", 
     }
   },
   gameList:{

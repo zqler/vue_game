@@ -6,7 +6,7 @@
       <div class="main">
         <h3>认识人头马</h3>
         <el-row :gutter="10">
-          <el-col :xs="10" :md="6" :lg="4" :span="10" :offset="1">
+          <el-col :xs="10" :md="6" :lg="10" :span="10" :offset="1">
             <div class="grid-content">
               <h4 class="title">跨越三个世纪对于最优质干葡萄品种的积极探索</h4>
               <p>{{conMsg1}}</p>
@@ -14,7 +14,7 @@
               <img class="left_pic" :src="pic_pz" alt="瓶子">
             </div>
           </el-col>
-          <el-col :xs="10" :md="6" :lg="4" :span="10" :offset="2">
+          <el-col :xs="10" :md="6" :lg="10" :span="10" :offset="2">
             <div class="grid-content">
               <img class="right-pic" src="../images/chart_04.jpg" alt="土壤jpg">
               <h4>"洋溢着优质香槟区干沁人心扉的酒香，犹如一款可以品势的香水"</h4>
