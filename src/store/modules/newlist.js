@@ -37,11 +37,6 @@ const getters = {
 }
 //异步操作
 const actions = {
-    [motion.LOADING_DATA]({commit,getters}){
-    return http.get("http://localhost:3000/newlist",getters.gGetPage,function (data) {
-      commit(motion.LOADING_DATA,data.body);
-    });
-  },
     [motion.LOADING_DATA]({
         commit,
         state

@@ -42,16 +42,16 @@
                   <el-pagination 
                    @size-change="sizeChange"
                   @current-change="currentChange"
-                  :current-page="10" 
-                  :page-sizes="[5,10,20,30,]" 
+                  :current-page="Page" 
+                  :page-sizes="[5,10,20,30]" 
                   :page-size="PageNum" 
                   :size-change="sizeChange" 
                   layout="sizes,prev,pager,next,jumper" 
-                  :total="1000">
+                  :total="14">
       
                   </el-pagination>
                 </div>
-</template>
+            </template>
           <!-- 编辑框 -->
           <el-dialog :title="formTitle" size="middle" v-model="isShow" @close="closeForm">
             <el-form :model="Item" ref="editForm" label-width="100px" >
@@ -217,6 +217,10 @@
           $this.loading = false;
         }, () => {})
       },
+      currentChange:function(cur){
+       this.$store.commit(motion.NOTICE_UPDATE,{key:["newslist","Page","Page"], value:cur});
+       this.searchHandler();
+    },
       sizeChange: function(size) {
         this.$store.commit(motion.NOTICE_UPDATE, {
           key: ["newslist", "Page", "Num"],
@@ -228,13 +232,6 @@
        const $this = this;
        this.$store.dispatch(prefix+gameTypes.CHANGE_STATE,row.GameID).then(()=>{$this.$notify.success({message: Crud.change.suc});},(data)=>{$this.$notify.error({message: data.errmsg})});
     },
-      currentChange: function(cur) {
-        this.store.commit(motion.NOTICE_UPDATE, {
-          key: ["newslist", "Page", "Page"],
-          value: cur
-        })
-      }
-  
     }
   
   }

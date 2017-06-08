@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        <h4 ref="title">红酒</h4>
         <Orderlist></Orderlist>
     </div>
 </template>
@@ -14,6 +15,10 @@ export default {
         return {
 
         }
+    },
+    mounted(){
+        console.log(this.$refs.title.clientHeight);
+      
     },
     computed: {
         ...mapState({
