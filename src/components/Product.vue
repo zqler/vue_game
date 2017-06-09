@@ -191,14 +191,14 @@
             $this.isShow = false;
             NProgress.done();
             $this.$notify.success({
-              message: Crud.save.suc
+              message: '成功'
             });
           }, (data) => {
             NProgress.done();
             $this.form.loading = false;
             $this.form.disabled = false;
             $this.$notify.success({
-               message: data.errmsg
+               message: '失败'
             });
   
           });

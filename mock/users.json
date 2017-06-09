@@ -2,7 +2,7 @@
     "users": [{
             "Id": "1",
             "username": "admin",
-            "password": "21232f297a57a5a743894a0e4a801fc3",
+            "password": "admin",
             "avatar": "",
             "name": "张权",
             "msg": "登录成功"
