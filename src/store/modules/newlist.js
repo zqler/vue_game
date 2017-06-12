@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import * as _ from "lodash";
 import {motion, constants, formAction} from "../types";
-import {ListApi, DeleteApi } from '../api';
+import {ListApi, newListApi } from '../api';
 import util from "util/util";
 import http from '../http';
 const state = {
@@ -10,7 +10,7 @@ const state = {
         admin: "",
         creatThing: "",
         user: "",
-        time: ""
+        StartTime: ""
     },
     Page: {
         Num: 10,
@@ -52,30 +52,26 @@ const actions = {
     },
     [motion.DEL_DATA]({commit}, payload) {        
          //请求接口
-        Vue.http.delete(DeleteApi, {params:{ taskId: payload }}).then(function(res){
+        Vue.http.delete(newListApi, {params:{ taskId: payload }}).then(function(res){
             //接口请求成功操作
-            console.log(res.data)
-            if(res.data==true)
-            {
-                //刷新页面
-            }
-            else
-            {
-            }
+               commit(motion.DEL_DATA,payload); //刷新页面
         },
         function(res){
             //接口请求失败处理
 
         });
     },
+//       [motion.DEL_DATA]({commit}, payload){
+//     return http.delete(newListApi,{taskId: [payload]} , () => {
+//       commit(motion.DEL_DATA, payload);
+//     });
+//   },
     [motion.ADD_DATA]({commit,state}, payload) {
         if (state.Item.taskId) { //id存在，编辑
             var List = state.Item;
             if (!_.isEqual(List, payload || {})) {
-                List.time = util
-                    .formatDate
-                    .format(List.time);
-                return http.put("http://localhost:3000/newlist", List, () => {
+               List.StartTime = util.formatDate.format(List.StartTime);
+                return http.put(newListApi, List, () => {
                     commit(motion.EDIT_DATA, List);
                 });
             }
@@ -83,10 +79,9 @@ const actions = {
                 reject({errorCode: constants.NO_MODIFY})
             })
         }
-        state.Item.time = util
-            .formatDate
-            .format(List.time);
-        return http.post("http://localhost:3000/newlist", state.Item, (data) => {
+       state.Item.StartTime = util.formatDate.format(state.Item.StartTime);
+        return http.post(newListApi, state.Item, (data) => {
+            console.log(data);
             commit(motion.ADD_DATA, data);
         })
     },
@@ -117,12 +112,12 @@ const mutations = {
     [motion.EDIT_DATA](state, payload) {
         state.newslist.splice(util.findIndex(state.newslist, 'taskId', payload.taskId), 1, payload);
     },
+    [motion.ADD_DATA](state, payload) {
+        state.Item.taskId = payload.taskId;
+        state.newslist.unshift(state.Item);
+    },
     [motion.INIT_DATA](state, payload) {
         state.Item = payload;
-    },
-    [motion.ADD_DATA](state, payload) {
-        state.Item.TaskId = payload.taskId;
-        state.newslist.unshift(state.Item);
     },
     [formAction.UPDATE_FORM](state, payload) {
         state.Item = _.cloneDeep(payload);

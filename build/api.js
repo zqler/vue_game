@@ -58,11 +58,11 @@ else
 res.json(data.login);   //登录成功
 }
 });
-router.get('/list',function(req,res){
+router.get('/list', function(req,res){
   res.json(appList.newList);
 });
 
-router.delete('/Dlist',function(req,res){
+router.delete('/Dlist', function(req,res){
    
   let taskID = req.query.taskId;   //获取参数   delete ,get  用query；post用body;  路由传参用params
   let List = appList.newList;
@@ -70,12 +70,31 @@ router.delete('/Dlist',function(req,res){
   //删除元素
   for(var p in List){
     if(List[p].taskId == taskID){
-      List.splice(List[p],1)      
+      List.splice(List[p],1);      
       break;
     }
   } 
 
   res.json(true);   //返回成功
 
+});
+router.post('/Dlist', function(req,res){
+  let List = appList.newList;
+    if(req.body){
+      res.send({"status":"success","taskId": req.body.taskId});
+       res.json({ List });
+      console.log('111');
+    }else{
+      res.send({"status":"error"});
+    }
+    jsonStr = JSON.parse(req.body);
+    List.push(jsonStr);
+   
+
+});
+router.put('/DList',function(req,res){
+      if(req.body){
+        res.json(true);
+      }
 })
 module.exports = router;

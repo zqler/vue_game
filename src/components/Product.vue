@@ -24,7 +24,7 @@
                 <td>{{task.admin}}</td>
                 <td>{{task.creatThing}}</td>
                 <td>{{task.user}}</td>
-                <td>{{task.time}}</td>
+                <td>{{task.StartTime}}</td>
                 <td>
                   <div>
   
@@ -66,9 +66,9 @@
               <el-form-item label="用户" props="user">
                 <el-input v-model="Item.user">
                 </el-input>
-              </el-form-item>
-              <el-form-item label="时间" props="time">
-                <el-date-picker type="datetime" placeholder="选择日期时间" v-model="Item.time"></el-date-picker>
+              </el-form-item> 
+              <el-form-item label="时间" props="StartTime">
+                <el-date-picker type="datetime" placeholder="选择日期时间" v-model="Item.StartTime" ></el-date-picker>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -86,18 +86,9 @@
 <script>
   import NProgress from 'nprogress'
   import * as _ from 'lodash'
-  import {
-    mapState,
-    mapGetters
-  } from 'vuex'
-  import {
-    GameLang,
-    Crud
-  } from "../store/lang"
-  import {
-    motion,
-    formAction
-  } from "../store/types"
+  import {mapState, mapGetters} from 'vuex'
+  import {GameLang,Crud} from "../store/lang"
+  import { motion,formAction} from "../store/types"
   
   export default {
     name: 'product',
@@ -108,7 +99,9 @@
         rates: [],
         isShow: false,
         formTitle: '',
+        row:{},
         form: {
+          loading: false,  
           disabled: false
         }
        
@@ -191,14 +184,14 @@
             $this.isShow = false;
             NProgress.done();
             $this.$notify.success({
-              message: '成功'
+              message: Crud.sava.suc
             });
           }, (data) => {
             NProgress.done();
             $this.form.loading = false;
             $this.form.disabled = false;
             $this.$notify.success({
-               message: '失败'
+               message: Crud.sava.err
             });
   
           });
