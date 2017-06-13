@@ -80,10 +80,11 @@ const actions = {
             })
         }
        state.Item.StartTime = util.formatDate.format(state.Item.StartTime);
-        return http.post(newListApi, state.Item, (data) => {
-            console.log(data);
+       //掉接口
+        Vue.http.post(newListApi, state.Item).then(function(res){
+               console.log(res.data);
             commit(motion.ADD_DATA, data);
-        })
+        })  
     },
     [motion.CHANGE_STATE]({commit}, payload) {
         return http.put("http://localhost:3000/newlist", {

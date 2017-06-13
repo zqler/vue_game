@@ -4,6 +4,7 @@ var router = express.Router();
 var bodyPaeser = require('body-parser')
 var appdata = require('../mock/users.json')
 var appList = require('../mock/newlist.json')
+var videoList = require ('../mock/videolist.json')
 var data = require('./server/data')
 // router.use(function(req,res,next){
 //       var s = "[" + Date.now() + "] :" + req.url + ";" + req.header('UserToken');
@@ -47,7 +48,7 @@ break;
 //判断
 if(!user)
 {
-  res.json("用户不存在");   //用户不存在
+  res.json("用户不存在，去注册吧！");   //用户不存在
 }
 else if(user.password!=passWord)
 {
@@ -78,23 +79,43 @@ router.delete('/Dlist', function(req,res){
   res.json(true);   //返回成功
 
 });
+//注册接口
+router.post('/register',function(req,res){
+    let login= appdata.users;
+    console.log(req.body);
+     if(req.body){
+       res.json({
+          "data": "success",
+       });
+     }else{
+       res.json({
+         "error": "error"
+         })
+     }
+})
 router.post('/Dlist', function(req,res){
   let List = appList.newList;
-    if(req.body){
-      res.send({"status":"success","taskId": req.body.taskId});
-       res.json({ List });
-      console.log('111');
+    if(req.body){    
+       //得到新数据
+       var newUser=req.body ;
+       newUser.taskId=parseInt(List[List.length-1].taskId)+1;
+       newUser.isdeleted=false;       
+       List.push(newUser);
+       res.json({data:List});
     }else{
       res.send({"status":"error"});
-    }
-    jsonStr = JSON.parse(req.body);
-    List.push(jsonStr);
+    } 
    
-
 });
 router.put('/DList',function(req,res){
       if(req.body){
         res.json(true);
       }
+})
+//新闻列表页
+router.get('/VList',function(req,res){
+       const data = videoList.video;
+       res.json(data)
+       res.send("success")
 })
 module.exports = router;

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from 'components/Home'
 import Read from 'components/read'
-import Productlist from 'components/Productlist'
+import Video from 'components/video'
 import resource from 'vue-resource'
 import Product from 'components/Product'
 import Login from 'components/login'
@@ -61,8 +61,8 @@ routes: [
     },
      {
         path: '/list',
-        name: 'Productlist',
-        component: Productlist,
+        name: 'VideoList',
+        component: Video,
         meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
             title: '列表页',
