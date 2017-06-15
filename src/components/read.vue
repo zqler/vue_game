@@ -4,7 +4,7 @@
   <el-row>
     <el-col :span="12" :offset="8"><div class="grid-content bg-purple-dark">
   <el-breadcrumb separator="/">
-    <el-breadcrumb-item :to="{path:'/home'}">
+    <el-breadcrumb-item :to="{path:'/'}">
       首页
     </el-breadcrumb-item>
     <el-breadcrumb-item >每日一读</el-breadcrumb-item>

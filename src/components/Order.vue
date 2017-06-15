@@ -25,7 +25,7 @@
               <p>
                 <strong>X.O</strong>
               </p>
-              <router-link class="btn" :to="{ name: 'Productlist'}">发现之旅</router-link>
+              <router-link class="btn" :to="{ name: 'VideoList'}">发现之旅</router-link>
             </div>
           </el-col>
         </el-row>

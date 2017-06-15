@@ -5,7 +5,7 @@
             <span class="tips" @click="clickfn">酒的历史</span>
         </h3>
         <el-row>
-            <el-col :span="4" v-for="(item,index) in Vlist" :offset="index>0?1 : 0.5">
+            <el-col style="width: 350px;heigth: 200px;margin-top: 10px" :span="4" v-for="(item,index) in Vlist" :offset="1">
                 <el-card :body-style="{padding:'0px'}">
                     <img :src="item.img" alt="列表图片" class="img">
                       <span>{{item.name}}</span>
@@ -13,7 +13,7 @@
                         <div class="bottom clearfix">
                             <time class="time">{{item.currentDate}}</time>
                             <el-button type="text" >
-                                <router-link :to="{name:'Detail',params:{id:item.id}}">进入详情</router-link>
+                                <router-link :to="{name:'Detail',params:{id:item.id}}">观看视频</router-link>
                             </el-button>
     
                         </div>
@@ -46,6 +46,7 @@
 </script>
 
 <style lang="scss" scoped>
+    .productlist{margin: 0 auto;}
     .img {
         width: 100%;
         height: auto;
