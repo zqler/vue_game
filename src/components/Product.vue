@@ -233,4 +233,3 @@
 <style lang="sass" scoped>
     @import "../sass/layout"
 </style>
-}}
