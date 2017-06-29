@@ -17,7 +17,7 @@ export default {
         }
     },
     mounted(){
-        console.log(this.$refs.title.clientHeight);
+        this.$refs.title.style.fontSize= '26px';
       
     },
     computed: {

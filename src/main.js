@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-default/index.css'
 
 
 sync(store, router);
+
 Vue.use(Element)
     /* eslint-disable no-new */
 Vue.http.options.emulateJSON=true;
