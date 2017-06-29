@@ -5,7 +5,11 @@
             <span class="tips" @click="clickfn">酒的历史</span>
         </h3>
         <el-row style="width: 1200px;margin: 0 auto;">
+<<<<<<< HEAD
             <el-col  style="width:350px;margin: 25px;"   v-for="(item,index) in Vlist" :span="4">
+=======
+            <el-col  style="width:350px;margin: 25px;"   v-for="(item,index) in Vlist">
+>>>>>>> d8fb3d2808089e0fc6930b4240ab322406c34a18
                 <el-card :body-style="{padding:'0px'}">
                     <img :src="item.img" alt="列表图片" class="img" style="height: 150px">
                       <h3>{{item.name}}</h3>
