@@ -7,7 +7,7 @@
       <el-button type="info" @click="addHandler">新增</el-button>
     </div>
     <!--列表-->
-  
+
     <el-row>
       <el-col :span="10" :offset="8">
         <div class="grid-content bg-purple">
@@ -27,7 +27,7 @@
                 <td>{{task.StartTime}}</td>
                 <td>
                   <div>
-  
+
                     <el-button type="primary" @click="editHandler(task)">修改</el-button>
                     <el-button type="warning" @click="delHandler(task)">删除</el-button>
                   </div>
@@ -39,17 +39,13 @@
           <template>
                 <div class="block">
                   <span class="demostration"></span>
-                  <el-pagination 
-                   @size-change="sizeChange"
-                  @current-change="currentChange"
-                  :current-page="Page" 
-                  :page-sizes="[5,10,20,30]" 
-                  :page-size="PageNum" 
-                  :size-change="sizeChange" 
-                  layout="sizes,prev,pager,next,jumper" 
-                  :total="14">
-      
-                  </el-pagination>
+                   <el-pagination :current-page="Page" :page-sizes="[5, 10, 20, 50]" :page-size="PageNum"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="AllCount" style="float:right"
+                     @size-change="sizeChange"
+                     @current-change="currentChange"
+      >
+      </el-pagination>
                 </div>
             </template>
           <!-- 编辑框 -->
@@ -66,7 +62,7 @@
               <el-form-item label="用户" props="user">
                 <el-input v-model="Item.user">
                 </el-input>
-              </el-form-item> 
+              </el-form-item>
               <el-form-item label="时间" props="StartTime">
                 <el-date-picker type="datetime" placeholder="选择日期时间" v-model="Item.StartTime" ></el-date-picker>
               </el-form-item>
@@ -79,155 +75,170 @@
         </div>
       </el-col>
     </el-row>
-  
+
   </div>
 </template>
 
 <script>
-  import NProgress from 'nprogress'
-  import * as _ from 'lodash'
-  import {mapState, mapGetters} from 'vuex'
-  import {GameLang,Crud} from "../store/lang"
-  import { motion,formAction} from "../store/types"
-  
-  export default {
-    name: 'product',
-    data() {
-      return {
-        currentPage2: 1,
-        articles: [],
-        rates: [],
-        isShow: false,
-        formTitle: '',
-        row:{},
-        form: {
-          loading: false,  
-          disabled: false
-        }
-       
+import NProgress from "nprogress";
+import * as _ from "lodash";
+import { mapState, mapGetters } from "vuex";
+import { GameLang, Crud } from "../store/lang";
+import { motion, formAction } from "../store/types";
+
+export default {
+  name: "product",
+  data() {
+    return {
+      articles: [],
+      rates: [],
+      isShow: false,
+      formTitle: "",
+      row: {},
+      form: {
+        loading: false,
+        disabled: false
       }
+    };
+  },
+  created: function() {
+    NProgress.start();
+    var $this = this;
+    this.$store.dispatch(motion.LOADING_DATA).then(() => {
+      $this.loading = false;
+      NProgress.done();
+    });
+  },
+  computed: {
+    ...mapState({
+      AllCount: state => state.newlist.Page.AllCount,
+      PageNum: state => state.newlist.Page.Num,
+      Page: state => state.newlist.Page.Page,
+      Item: state => state.newlist.Item,
+      newslist: state => state.newlist.newslist,
+      Search: state => state.newlist.Search
+    }),
+    ...mapGetters(["headers"])
+  },
+  methods: {
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
     },
-    created: function() {
-      NProgress.start();
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    editHandler: function(row) {
+      this.formTitle = GameLang.edit;
+      this.isShow = true;
+      this.row = Object.assign({}, row);
+      this.$store.commit(formAction.UPDATE_FORM, row);
+    },
+    //删除
+    delHandler: function(row) {
       var $this = this;
-      this.$store.dispatch(motion.LOADING_DATA).then(() => {
-        $this.loading = false;
-        NProgress.done();
-      })
-  
-    },
-    computed: {
-      ...mapState({
-        AllCount: state => state.newlist.Page.AllCount,
-        PageNum: state => state.newlist.Page.Num,
-        Page: state => state.newlist.Page.Page,
-        Item: state => state.newlist.Item,
-        newslist: state => state.newlist.newslist,
-        Search: state => state.newlist.Search
-      }),
-      ...mapGetters(['headers'])
-    },
-    methods: {
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        console.log(`当前页: ${val}`);
-      },
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      editHandler: function(row) {
-        this.formTitle = GameLang.edit;
-        this.isShow = true;
-        this.row = Object.assign({}, row);
-        this.$store.commit(formAction.UPDATE_FORM, row);
-      },
-      //删除
-      delHandler: function(row) {
-        var $this = this;
-        this.$confirm(GameLang.tipDel, GameLang.tip, {}).then(() => {
+      this.$confirm(GameLang.tipDel, GameLang.tip, {}).then(
+        () => {
           $this.loading = true;
           NProgress.start();
-          $this.$store.dispatch(motion.DEL_DATA, row.taskId).then(() => {
-            NProgress.done();
-            $this.loading = false;
-            $this.$notify.success({
-              message: Crud.del.suc
-            });
-          }, (rep) => {
-            $this.$notify.error({
-              message: Crud.del.err
-            });
-            $this.loading = false;
-          })
-        }, () => {});
-      },
-      closeForm: function() {
-        this.isShow = false;
-        this.form.disabled = false;
-      },
-  
-      savaHandler: function(row) {
-        const $this = this;
-        $this.form.loading = true;
-        $this.form.disabled = true;
-        NProgress.start();
-        $this.$store.dispatch(motion.ADD_DATA, $this.row).then(
-          () => {
-            $this.form.loading = false;
-            $this.form.disabled = false;
-            $this.isShow = false;
-            NProgress.done();
-            $this.$notify.success({
-              message: Crud.sava.suc
-            });
-          }, (data) => {
-            NProgress.done();
-            $this.form.loading = false;
-            $this.form.disabled = false;
-            $this.$notify.success({
-               message: Crud.sava.err
-            });
-  
+          $this.$store.dispatch(motion.DEL_DATA, row.taskId).then(
+            () => {
+              NProgress.done();
+              $this.loading = false;
+              $this.$notify.success({
+                message: Crud.del.suc
+              });
+            },
+            rep => {
+              $this.$notify.error({
+                message: Crud.del.err
+              });
+              $this.loading = false;
+            }
+          );
+        },
+        () => {}
+      );
+    },
+    closeForm: function() {
+      this.isShow = false;
+      this.form.disabled = false;
+    },
+
+    savaHandler: function(row) {
+      const $this = this;
+      $this.form.loading = true;
+      $this.form.disabled = true;
+      NProgress.start();
+      $this.$store.dispatch(motion.ADD_DATA, $this.row).then(
+        () => {
+          $this.form.loading = false;
+          $this.form.disabled = false;
+          $this.isShow = false;
+          NProgress.done();
+          $this.$notify.success({
+            message: Crud.sava.suc
           });
-      },
-      //显示新增页面
-      addHandler: function() {
-        const $this = this;
-        this.formTitle = GameLang.add;
-        $this.$store.commit(formAction.REST_FORM);
-        this.isShow = true;
-      },
-      searchHandler: function() {
-        const $this = this;
-        $this.loading = true;
-        this.$store.dispatch(motion.LOADING_DATA).then(() => {
+        },
+        data => {
+          NProgress.done();
+          $this.form.loading = false;
+          $this.form.disabled = false;
+          $this.$notify.success({
+            message: Crud.sava.err
+          });
+        }
+      );
+    },
+    //显示新增页面
+    addHandler: function() {
+      const $this = this;
+      this.formTitle = GameLang.add;
+      $this.$store.commit(formAction.REST_FORM);
+      this.isShow = true;
+    },
+    searchHandler: function() {
+      const $this = this;
+      $this.loading = true;
+      this.$store.dispatch(motion.LOADING_DATA).then(
+        () => {
           $this.loading = false;
-        }, () => {})
-      },
-      currentChange:function(cur){
-       this.$store.commit(motion.NOTICE_UPDATE,{key:["newslist","Page","Page"], value:cur});
-       this.searchHandler();
+        },
+        () => {}
+      );
     },
-      sizeChange: function(size) {
-        this.$store.commit(motion.NOTICE_UPDATE, {
-          key: ["newslist", "Page", "Num"],
-          value: size
-        })
-        this.searchHandler();
-      },
-       changeState:function(row){
-       const $this = this;
-       this.$store.dispatch(prefix+gameTypes.CHANGE_STATE,row.GameID).then(()=>{$this.$notify.success({message: Crud.change.suc});},(data)=>{$this.$notify.error({message: data.errmsg})});
+    currentChange: function(cur) {
+      this.$store.commit(motion.NOTICE_UPDATE, {
+        key: ["newslist", "Page", "Page"],
+        value: cur
+      });
+      this.searchHandler();
     },
+    sizeChange: function(size) {
+      this.$store.commit(motion.NOTICE_UPDATE, {
+        key: ["newslist", "Page", "Num"],
+        value: size
+      });
+      this.searchHandler();
+    },
+    changeState: function(row) {
+      const $this = this;
+      this.$store.dispatch(prefix + gameTypes.CHANGE_STATE, row.taskId).then(
+        () => {
+          $this.$notify.success({ message: Crud.change.suc });
+        },
+        data => {
+          $this.$notify.error({ message: data.errmsg });
+        }
+      );
     }
-  
   }
+};
 </script>
 
 <style lang="sass" scoped>

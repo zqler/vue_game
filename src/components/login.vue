@@ -1,5 +1,6 @@
 <template>
   <div class="login-page">
+
     <el-form :model="user" :rules="rules" ref="userLogin" class="card-box login-form">
       <h3 class="login-title">系统登录</h3>
       <span class="login-tips" v-if="loginInfo.isSuccess">{{loginInfo.msg}}</span>
@@ -21,65 +22,74 @@
 </template>
 
 <script>
-  import {login,constants} from '../store/types'
-  import {mapState} from 'vuex';
-  import Vue from 'vue';
-  import util from "util/util"
-  export default {
-    data() {
-      return {
-        user: {
-          isAuto:false,
-          account: '',
-          password: ''
-        },
-        rules: {
-          account: [
-            { required: true, message: '请输入账号', trigger: 'blur' }
-          ],
-          password: [
-            { required: true, message: '请输入密码', trigger: 'blur' },
-          ]
-        },
-        checked: true,
-      };
-    },
-    created:function(){
-       const user = util.getStorage(constants.USER_INFO_KEY);
-       if(user){
-         this.user.account = user.UserName;
-         this.user.password = util.decryAES(user.PassWord,this.aesKey);
-         this.user.isAuto = true;
-       }
-    },
-    computed:{
-      ...mapState(['loginInfo','aesKey'])
-    },
-    methods: {
-      accountChange(){
-         this.user.isAuto = false;
-         this.user.password = "";
+import { login, constants } from "../store/types";
+import { mapState } from "vuex";
+import Vue from "vue";
+import util from "util/util";
+export default {
+  data() {
+    return {
+      Search: "",
+      user: {
+        isAuto: false,
+        account: "",
+        password: ""
       },
-      loginHandler(ev) {
-        var $this= this;
-        this.$refs.userLogin.validate((valid) => {
-          if (valid) {
-             var user = {};
-             user.UserName =  $this.user.account;
-             user.PassWord = $this.user.isAuto?$this.user.password:util.encryMD5($this.user.password);
-             $this.$store.dispatch(login.LOGIN, user).then((data)=>{
-                user.PassWord = util.encryAES(user.PassWord, $this.aesKey);
-                util.setStorage({key:constants.USER_INFO_KEY,data:user}, true);
-                $this.$router.replace(decodeURIComponent($this.$route.query.redirect));
-             },()=>{console.info('fail')});
-          }
-          else{
-             store.commit(login.LOGIN_FAIL,{msg:'密码或用户名不能为空'})
-          }
-        });
-      }
+      rules: {
+        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+      },
+      checked: true
+    };
+  },
+  created: function() {
+    const user = util.getStorage(constants.USER_INFO_KEY);
+    if (user) {
+      this.user.account = user.UserName;
+      this.user.password = util.decryAES(user.PassWord, this.aesKey);
+      this.user.isAuto = true;
+    }
+  },
+  computed: {
+    ...mapState(["loginInfo", "aesKey"])
+  },
+  methods: {
+    accountChange() {
+      this.user.isAuto = false;
+      this.user.password = "";
+    },
+    loginHandler(ev) {
+      var $this = this;
+      this.$refs.userLogin.validate(valid => {
+        if (valid) {
+          var user = {};
+          user.UserName = $this.user.account;
+          user.PassWord = $this.user.isAuto
+            ? $this.user.password
+            : util.encryMD5($this.user.password);
+          $this.$store.dispatch(login.LOGIN, user).then(
+            data => {
+              user.PassWord = util.encryAES(user.PassWord, $this.aesKey);
+              const express = 3600;
+              util.setStorage(
+                { key: constants.USER_INFO_KEY, data: user, express: express },
+                true
+              );
+              $this.$router.replace(
+                decodeURIComponent($this.$route.query.redirect)
+              );
+            },
+            () => {
+              console.info("fail");
+            }
+          );
+        } else {
+          store.commit(login.LOGIN_FAIL, { msg: "密码或用户名不能为空" });
+        }
+      });
     }
   }
+};
 </script>
 
 <style lang="sass">
@@ -111,4 +121,5 @@
       width: 100%
       display: inline-block
       color: #FF4949
+  canvas{display: block;width: 100%;height: 100%;}
 </style>

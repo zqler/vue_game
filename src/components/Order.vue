@@ -25,7 +25,7 @@
               <p>
                 <strong>X.O</strong>
               </p>
-              <router-link class="btn" :to="{ name: 'VideoList'}">发现之旅</router-link>
+              <router-link class="btn-one" :to="{ name: 'VideoList'}">发现之旅</router-link>
             </div>
           </el-col>
         </el-row>
@@ -45,18 +45,28 @@ export default {
       conMsg1: '于1724年创立于夏朗德省的人头马，将永远同这片土地交织在一起，难割难分。正是在这一揽法国沃土上，诞生了由大、小香槟区共同构筑',
       conMsg2: '已过人的耐心和热情执着而打造的卓越之作，人头马是时间的守护神。我们特别关注优质香槟产区，葡萄成熟后尽可能晚地采摘，以便使其香味更浓郁，使其完全释放和展现自身真实品色。',
       pic_pz: '../../static/pz_08.jpg',
-      picBook: '../../static/histroy.jpg',
-      url: '/list',
+      picBook: '../../static/histroy.jpg'
     }
   },
   methods: {
-    url: function () {
-      this.$router.go('/list');
-    }
+
 
   }
 }
 </script>
 <style lang="scss" scoped>
 @import "../sass/layout.scss";
+  .btn-one {
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    width: 80px;
+    height: 30px;
+    color: #fff;
+    background-image: linear-gradient(#00b3f1, #00a3ef);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.19),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border: solid 1px #0082be;
+    border-radius: 2px;
+  }
 </style>
