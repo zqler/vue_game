@@ -56,18 +56,21 @@ router.use("/info", function(req, res, next) {
     console.info(next);
 });
 router.delete("/Dlist", function(req, res) {
-    let taskID = req.query.taskId; //获取参数   delete ,get  用query；post用body;  路由传参用params
-    let List = appList.newList;
+    // let taskID = req.query.taskId; //获取参数   delete ,get  用query；post用body;  路由传参用params
+    // let List = appList.newList;
 
-    //删除元素
-    for (var p in List) {
-        if (List[p].taskId == taskID) {
-            List.splice(List[p], 1);
-            break;
-        }
-    }
+    // //删除元素
+    // for (var p in List) {
+    //     if (List[p].taskId == taskID) {
+    //         List.splice(List[p], 1);
+    //         break;
+    //     }
+    // }
 
-    res.json(true); //返回成功
+    res.json({
+        "errcode": 0,
+        "resultData": req.params
+    })
 });
 //注册接口
 router.post("/register", function(req, res) {

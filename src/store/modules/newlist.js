@@ -22,8 +22,9 @@ const state = {
     },
     Item: {},
     newslist: [],
-    Search: ""
+    Search: " "
 };
+//计算有关操作
 const getters = {
     gLength(state) {
         return state.newslist.length || 0;
@@ -39,66 +40,45 @@ const getters = {
 };
 //异步操作
 const actions = {
-    [motion.LOADING_DATA]({ commit, getters }) {
-        return http.get(ListApi, getters.gGetPage, function(data) {
-            console.log(data);
-            commit(motion.LOADING_DATA, data);
-        });
-    },
-
-    [motion.DEL_DATA]({ commit }, payload) {
-        //请求接口
-        Vue.http.delete(newListApi, { params: { taskId: payload } }).then(
-            function(res) {
-                //接口请求成功操作
-                commit(motion.DEL_DATA, payload); //刷新页面
-            },
-            function(res) {
-                //接口请求失败处理
-            }
-        );
-    },
-
-    [motion.ADD_DATA]({ commit, state }, payload) {
-        if (state.Item.taskId) {
-            //id存在，编辑
-            var List = state.Item;
-            if (!_.isEqual(List, payload || {})) {
-                List.StartTime = util.formatDate.format(List.StartTime);
-                return http.put(ListsApi, List, () => {
-                    commit(motion.EDIT_DATA, List);
+        [motion.LOADING_DATA]({ commit, getters }) {
+            return http.get(ListApi, getters.gGetPage, function(data) {
+                console.log(data);
+                commit(motion.LOADING_DATA, data);
+            });
+        },
+        [motion.DEL_DATA]({ commit }, payload) {
+            return http.delete(newListApi, { taskId: [payload] }, () => {
+                commit(motion.DEL_DATA, payload);
+            });
+        },
+        [motion.ADD_DATA]({ commit, state }, payload) {
+            if (state.Item.taskId) {
+                //id存在，编辑
+                var List = state.Item;
+                if (!_.isEqual(List, payload || {})) {
+                    List.StartTime = util.formatDate.format(List.StartTime);
+                    return http.put(ListsApi, List, () => {
+                        commit(motion.EDIT_DATA, List);
+                    });
+                }
+                return new Promise((resolve, reject) => {
+                    reject({ errorCode: constants.NO_MODIFY });
                 });
             }
-            return new Promise((resolve, reject) => {
-                reject({ errorCode: constants.NO_MODIFY });
+            state.Item.StartTime = util.formatDate.format(state.Item.StartTime);
+            //掉接口
+            Vue.http.post(ListsApi, state.Item).then(function(res) {
+                console.log(res.data);
+                commit(motion.ADD_DATA, data);
             });
-        }
-        state.Item.StartTime = util.formatDate.format(state.Item.StartTime);
-        //掉接口
-        Vue.http.post(ListsApi, state.Item).then(function(res) {
-            console.log(res.data);
-            commit(motion.ADD_DATA, data);
-        });
-    },
-    [motion.CHANGE_STATE]({ commit }, payload) {
-        return http.put(
-            ListsApi, {
-                taskId: payload
-            },
-            data => {
-                commit(
-                    motion.CHANGE_STATE,
-                    Object.assign({
-                            taskId: payload
-                        },
-                        data
-                    )
-                );
-            }
-        );
+        },
+        [motion.CHANGE_STATE]({ commit }, payload) {
+            return http.put(ListsApi, { "taskId": payload }, (data) => {
+                commit(prefix + motion.CHANGE_STATE, Object.assign({ "taskId": payload }, data))
+            });
+        },
     }
-};
-//mutations  同步操作
+    //mutations  同步操作
 const mutations = {
     [motion.LOADING_DATA](state, payload) {
         state.Page.AllCount = payload.AllCount;
@@ -113,11 +93,7 @@ const mutations = {
     },
     //同步页面页面编辑
     [motion.EDIT_DATA](state, payload) {
-        state.newslist.splice(
-            util.findIndex(state.newslist, "taskId", payload.taskId),
-            1,
-            payload
-        );
+        state.newslist.splice(util.findIndex(state.newslist, "taskId", payload.taskId), 1, payload);
     },
     [motion.ADD_DATA](state, payload) {
         state.Item.taskId = payload.taskId;
