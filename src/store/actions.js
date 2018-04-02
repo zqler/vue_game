@@ -7,6 +7,7 @@ export default {
             loginApi,
             user,
             function(data) {
+               
                 commit(login.LOGIN_SUCCESS, data);
             },
             function(data) {

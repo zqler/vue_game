@@ -12,6 +12,7 @@ var data = require("./server/data");
 // console.info("[Login] name:" + name + " password: " + password);
 // res.json(data.login) }); module.exports = router; 创建数据库连接
 router.use(bodyPaeser.urlencoded({ extended: false }));
+router.use(bodyPaeser.json());
 router.use(function(req, res, next) {
     var s = "[" + Date.now() + "] :" + req.url + ";" + req.header("UserToken");
     console.info(s);
@@ -21,6 +22,7 @@ router.use(function(req, res, next) {
 router.post("/login", function(req, res) {
     //获取参数
     let login = appdata.users;
+
     let name = req.body.UserName;
     let passWord = req.body.PassWord;
     console.info("[Login] name:" + name + " password: " + passWord);
@@ -68,9 +70,9 @@ router.delete("/Dlist", function(req, res) {
     // }
 
     res.json({
-        "errcode": 0,
-        "resultData": req.params
-    })
+        errcode: 0,
+        resultData: req.params
+    });
 });
 //注册接口
 router.post("/register", function(req, res) {

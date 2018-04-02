@@ -1,8 +1,11 @@
-//封装axios
+/**
+ * @desc 对vue-resource http 简单包装返回一个Promise对象
+ * Created by wenruo on 2016/12/19.
+ */
+
 import Vue from "vue";
 import * as _ from "lodash";
 import util from "util/util";
-import axios from "axios";
 import { constants } from "./types";
 
 function commonDeal(promise, success, fail) {
@@ -15,29 +18,29 @@ function commonDeal(promise, success, fail) {
     return new Promise((resolve, reject) => {
         const jsonReg = /\{.+\}/;
         promise.then(
-            ({ data }) => {
-                let ret = _.isString(data) ?
-                    jsonReg.test(data) ? util.toJSON(data) : { errmsg: data } :
-                    data;
-                if (ret.errcode == 0) {
-                    if (ret.resultData) {
-                        ret = data.resultData;
+            ({ body }) => {
+                let data = _.isString(body) ?
+                    jsonReg.test(body) ? util.toJSON(body) : { errmsg: body } :
+                    body;
+                if (data.errcode == 0) {
+                    if (data.resultData) {
+                        data = data.resultData;
                     } else {
-                        ret = true;
+                        data = true;
                     }
-                    success(ret);
-                    resolve(ret);
+                    success(data);
+                    resolve(data);
                 } else {
-                    fail(ret);
-                    reject(ret);
+                    fail(data);
+                    reject(data);
                 }
             },
-            ({ data }) => {
-                const ret = _.isString(data) ?
-                    jsonReg.test(data) ? util.toJSON(data) : { errmsg: data } :
-                    data;
-                fail(ret);
-                reject(ret);
+            ({ body }) => {
+                const data = _.isString(body) ?
+                    jsonReg.test(body) ? util.toJSON(body) : { errmsg: body } :
+                    body;
+                fail(data);
+                reject(data);
             }
         );
     });
@@ -68,7 +71,7 @@ const http = {};
         }
 
         return commonDeal(
-            axios[method](url, util.assign(true, settings, opt)),
+            Vue.http[method](url, util.assign(true, settings, opt)),
             success,
             fail
         );
@@ -83,7 +86,7 @@ const http = {};
             opt = {};
         }
         return commonDeal(
-            axios[method](url, util.assign(true, settings, data), opt),
+            Vue.http[method](url, util.assign(true, settings, data), opt),
             success,
             fail
         );
